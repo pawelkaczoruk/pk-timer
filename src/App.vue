@@ -5,6 +5,7 @@
     <Display />
     <Cube />
     <Graph />
+    <Extra />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import Scramble from './components/Scramble'
 import Cube from './components/Cube'
 import Display from './components/Display'
 import Graph from './components/Graph'
+import Extra from './components/Extra'
 
 export default {
   name: 'App',
@@ -22,7 +24,8 @@ export default {
     Scramble,
     Cube,
     Display,
-    Graph
+    Graph,
+    Extra
   }
 }
 </script>
