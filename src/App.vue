@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <MenuBar />
+    <Scramble />
   </div>
 </template>
 
 <script>
 import MenuBar from './components/MenuBar'
+import Scramble from './components/Scramble'
 
 export default {
   name: 'App',
   components: {
-    MenuBar
+    MenuBar,
+    Scramble
   }
 }
 </script>
@@ -21,9 +24,5 @@ export default {
 @import url('./assets/styles/reset.scss');
 
 
-MenuBar {
-  width: 50vw;
-  height: 72px;
-}
 
 </style>
