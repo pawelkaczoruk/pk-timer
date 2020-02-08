@@ -2,18 +2,21 @@
   <div id="app">
     <MenuBar />
     <Scramble />
+    <Cube />
   </div>
 </template>
 
 <script>
 import MenuBar from './components/MenuBar'
 import Scramble from './components/Scramble'
+import Cube from './components/Cube'
 
 export default {
   name: 'App',
   components: {
     MenuBar,
-    Scramble
+    Scramble,
+    Cube
   }
 }
 </script>
