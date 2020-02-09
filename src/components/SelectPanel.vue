@@ -48,7 +48,7 @@ export default {
   }
 
   select {
-    background: rgba(71, 71, 71, 0.287);
+    background: rgba(0, 0, 0, 0.45);
     border: none;
     border-radius: .4rem;
     opacity: .5;
