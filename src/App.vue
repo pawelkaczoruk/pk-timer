@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <SelectPanel />
     <MenuBar />
     <Scramble />
     <Display />
@@ -16,6 +17,7 @@ import Cube from './components/Cube'
 import Display from './components/Display'
 import Graph from './components/Graph'
 import Extra from './components/Extra'
+import SelectPanel from './components/SelectPanel'
 
 export default {
   name: 'App',
@@ -25,7 +27,8 @@ export default {
     Cube,
     Display,
     Graph,
-    Extra
+    Extra,
+    SelectPanel
   }
 }
 </script>
