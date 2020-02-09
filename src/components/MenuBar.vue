@@ -15,7 +15,7 @@ export default {
 <style lang="scss" scoped>
 
 .menu {
-  height: 3rem;
+  height: 100%;
   width: 100%;
 
   button {
@@ -36,12 +36,12 @@ export default {
   }
 
   .sign-in {
-    padding: 0 .9em;
+    width: calc((100% - 3rem) / 2);
     background: var(--purple);
   }
 
   .contact {
-    padding: 0 .9em;
+    width: calc((100% - 3rem) / 2);
     background: var(--strawberry);
   }
 }

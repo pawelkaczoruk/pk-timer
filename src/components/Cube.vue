@@ -13,8 +13,8 @@ export default {
 <style lang="scss" scoped>
 
 .cube {
-  height: 14em;
-  width: 35vw;
+  height: 100%;
+  width: 100%;
   background: var(--space-blue);
 }
 

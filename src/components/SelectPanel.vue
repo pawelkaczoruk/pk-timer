@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 
 .select-panel {
-  height: 3em;
+  height: 100%;
   width: 100%;
   background: var(--denim-blue);
   display: flex;

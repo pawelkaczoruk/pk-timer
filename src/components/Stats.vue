@@ -13,8 +13,8 @@ export default {
 <style lang="scss" scoped>
 
 .stats {
-  height: 70vh;
-  width: 30vw;
+  height: 100%;
+  width: 100%;
   background: var(--grey);
 }
 

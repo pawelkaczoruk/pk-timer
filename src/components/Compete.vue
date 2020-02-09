@@ -18,8 +18,8 @@ export default {
 <style lang="scss" scoped>
 
 .compete {
-  width: 30vw;
-  height: 6em;
+  width: 100%;
+  height: 100%;
   background: var(--aegan-blue);
   display:flex;
   flex-direction: column;

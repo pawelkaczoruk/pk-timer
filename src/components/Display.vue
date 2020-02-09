@@ -17,8 +17,8 @@ export default {
 <style lang="scss" scoped>
 
 .display {
-  width: 35vw;
-  height: 12em;
+  width: 100%;
+  height: 100%;
   background: var(--yale-blue);
   display: flex;
   flex-direction: column;

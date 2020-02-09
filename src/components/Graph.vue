@@ -13,8 +13,8 @@ export default {
 <style lang="scss" scoped>
 
 .graph {
-  height: 14em;
-  width: 35vw;
+  height: 100%;
+  width: 100%;
   background: var(--sapphire-blue);
 }
 

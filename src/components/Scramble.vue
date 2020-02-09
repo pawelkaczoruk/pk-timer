@@ -14,7 +14,7 @@ export default {
 
 .scramble {
   width: 100%;
-  height: 5em;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

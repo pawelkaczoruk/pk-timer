@@ -1,20 +1,21 @@
 <template>
-  <div class="extra">
-
+  <div class="logo">
+    
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Extra'
+  name: 'Logo'
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 
-.extra {
+.logo {
   width: 100%;
   height: 100%;
+  background: var(--denim-blue);
 }
 
 </style>
