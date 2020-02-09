@@ -7,6 +7,7 @@
     <Cube />
     <Graph />
     <Extra />
+    <Stats />
     <Compete />
   </div>
 </template>
@@ -20,6 +21,7 @@ import Graph from './components/Graph'
 import Extra from './components/Extra'
 import SelectPanel from './components/SelectPanel'
 import Compete from './components/Compete'
+import Stats from './components/Stats'
 
 export default {
   name: 'App',
@@ -31,7 +33,8 @@ export default {
     Graph,
     Extra,
     SelectPanel,
-    Compete
+    Compete,
+    Stats
   }
 }
 </script>
