@@ -6,7 +6,7 @@
     <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" />
     <Display class="display" />
-    <Cube class="cube" />
+    <Cube class="cube" :scramble="scramble" />
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
