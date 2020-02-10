@@ -4,7 +4,7 @@
     <SelectPanel class="select-panel" />
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
-    <Scramble class="scramble" :scramble="scramble" />
+    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
     <Display class="display" />
     <Cube class="cube" :scramble="scramble" />
     <Graph class="graph" />
@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      selectedCube: '3x3',
       scramble: []
     }
   },
@@ -107,7 +108,7 @@ export default {
     }
   },
   created() {
-    this.generateScramble('3x3');
+    this.generateScramble(this.selectedCube);
   }
 }
 </script>

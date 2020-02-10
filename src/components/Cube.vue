@@ -48,7 +48,6 @@ export default {
     // atm only for 3x3 cubes
     draw(scramble, cubeScheme) {
       const canvas = document.getElementById('scrambled-cube'),
-            
             scrambledCubeScheme = this.scrambleCube(scramble, cubeScheme);
 
             // if browser supports canvas
@@ -132,7 +131,7 @@ export default {
     },
 
     scrambleCube(scramble, colorScheme) {
-      let scrambledCube = {...colorScheme};
+      let scrambledCube = JSON.parse(JSON.stringify(colorScheme));
 
       for(let i=0; i<scramble.length; i++) {
         const letterLength = scramble[i].length,
@@ -363,6 +362,11 @@ export default {
   },
   mounted() {
     this.draw(this.scramble, this.scheme3x3);
+  },
+  watch: {
+    scramble() {
+      this.draw(this.scramble, this.scheme3x3);
+    }
   }
 }
 </script>
