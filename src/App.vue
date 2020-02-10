@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Logo class="logo" />
-    <SelectPanel class="select-panel" />
+    <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
-    <Scramble class="scramble" />
+    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
     <Display class="display" />
-    <Cube class="cube" />
+    <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
@@ -39,6 +39,81 @@ export default {
     Graph,
     Extra,
     Compete
+  },
+  data() {
+    return {
+      selectedCube: '3x3',
+      scramble: []
+    }
+  },
+  methods: {
+    updateCube(cube) {
+      this.selectedCube = cube;
+      this.generateScramble(cube)
+    },
+
+    generateScramble(cube) {
+      let scramble;
+
+      switch(cube) {
+        case '2x2': 
+        case '3x3': scramble = this.generateScrambleNxN(cube); break;
+      }
+
+      this.scramble = scramble;
+    },
+
+    // function to generate NxNxN scrambles - atm only for 2x2 and 3x3 cubes
+    generateScrambleNxN(cube) {
+      let scramble = [],
+          randSuffix,
+          suffix,
+          letter,
+          randLetter,
+          prev1Letter,
+          prev2Letter,
+          randGroup,
+          prevGroup,
+          length;
+
+      switch(cube) {
+        case '2x2': length = Math.floor(9 + Math.random() * 3); break;
+        case '3x3': length = Math.floor(19 + Math.random() * 6); break;
+      }
+
+      for(let i=0; i<length; i++) {
+        randSuffix = Math.floor(Math.random() * 3);
+
+        // generate letter
+        do {
+          randLetter = Math.floor(Math.random() * 2);
+          randGroup = Math.floor(Math.random() * 3);
+
+          switch(randGroup) {
+            case 0: letter = randLetter === 0 ? 'U' : 'D'; break;
+            case 1: letter = randLetter === 0 ? 'F' : 'B'; break;
+            case 2: letter = randLetter === 0 ? 'R' : 'L'; break;
+          }
+
+        } while(letter === prev1Letter || (letter === prev2Letter && randGroup === prevGroup));
+
+        // determine suffix
+        suffix = randSuffix === 0 ? '' : randSuffix === 1 ? '2' : '\'';
+
+        // save previous and second previous letter
+        if(i>1) prev2Letter = prev1Letter;
+        prev1Letter = letter;
+        prevGroup = randGroup;
+
+        // apply new letter with suffix
+        scramble.push(`${letter}${suffix}`)
+      }
+      
+      return scramble;
+    }
+  },
+  created() {
+    this.generateScramble(this.selectedCube);
   }
 }
 </script>

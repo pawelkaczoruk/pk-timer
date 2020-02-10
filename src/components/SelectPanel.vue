@@ -1,8 +1,12 @@
 <template>
   <div class="select-panel">
     <label for="cube">scramble:
-      <select id="cube">
-        <option :key="index" v-for="(scramble, index) in scrambles" :value="scramble">{{ scramble }}</option>
+      <select id="cube" v-model="selected.cube" @change="$emit('update-cube', selected.cube)">
+        <option 
+        :key="index" 
+        v-for="(cube, index) in cubes" 
+        :value="cube.value" 
+        :disabled="cube.disabled">{{ cube.label }}</option>
       </select>
     </label>
 
@@ -23,12 +27,97 @@
 <script>
 export default {
   name: 'SelectPanel',
+  props: ['selectedCube'],
   data() {
     return {
-      scrambles: ['2x2', '3x3', '4x4', '5x5', '6x6', '7x7', '3x3oh', 'pyraminx', 'megaminx', 'skweb', 'square1', 'clock', '3x3bld', '4x4bld', '5x5bld'],
+      selected: {
+        cube: this.selectedCube
+      },
+      cubes: [
+        {
+          value: '2x2',
+          label: '2x2',
+          disabled: false
+        },
+        {
+          value: '3x3',
+          label: '3x3',
+          disabled: false
+        },
+        {
+          value: '4x4',
+          label: '4x4',
+          disabled: true
+        },
+        {
+          value: '5x5',
+          label: '5x5',
+          disabled: true
+        },
+        {
+          value: '6x6',
+          label: '6x6',
+          disabled: true
+        },
+        {
+          value: '7x7',
+          label: '7x7',
+          disabled: true
+        },
+        {
+          value: '3x3oh',
+          label: '3x3 oh',
+          disabled: true
+        },
+        {
+          value: '3x3feet',
+          label: '3x3 feet',
+          disabled: true
+        },
+        {
+          value: '3x3bld',
+          label: '3x3 bld',
+          disabled: true
+        },
+        {
+          value: 'pyraminx',
+          label: 'pyraminx',
+          disabled: true
+        },
+        {
+          value: 'mexaminx',
+          label: 'mexaminx',
+          disabled: true
+        },
+        {
+          value: 'skweb',
+          label: 'skweb',
+          disabled: true
+        },
+        {
+          value: 'square1',
+          label: 'square1',
+          disabled: true
+        },
+        {
+          value: 'clock',
+          label: 'clock',
+          disabled: true
+        },
+        {
+          value: '4x4bld',
+          label: '4x4 bld',
+          disabled: true
+        },
+        {
+          value: '5x5bld',
+          label: '5x5 bld',
+          disabled: true
+        },
+      ],
       sessions: ['1', 'test2', 'practice'],
       modes: ['normal', 'mo3', 'ao5']
-    } 
+    }
   }
 }
 </script>
