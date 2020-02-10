@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'Cube',
-  props: ['scramble'],
+  props: ['scramble', 'selectedCube'],
   data() {
     return {
       scheme3x3: {
@@ -57,12 +57,14 @@ export default {
         // clear before redrawing
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        this.displayOneCubeSide(ctx, 99, 99, scrambledCubeScheme.front); // front
-        this.displayOneCubeSide(ctx, 99, 0, scrambledCubeScheme.top); // top
-        this.displayOneCubeSide(ctx, 0, 99, scrambledCubeScheme.left); // left
-        this.displayOneCubeSide(ctx, 198, 99, scrambledCubeScheme.right); // right
-        this.displayOneCubeSide(ctx, 297, 99, scrambledCubeScheme.back); // back
-        this.displayOneCubeSide(ctx, 99, 198, scrambledCubeScheme.bottom); // bottom
+        if(this.selectedCube === '3x3') {
+          this.displayOneCubeSide(ctx, 99, 99, scrambledCubeScheme.front); // front
+          this.displayOneCubeSide(ctx, 99, 0, scrambledCubeScheme.top); // top
+          this.displayOneCubeSide(ctx, 0, 99, scrambledCubeScheme.left); // left
+          this.displayOneCubeSide(ctx, 198, 99, scrambledCubeScheme.right); // right
+          this.displayOneCubeSide(ctx, 297, 99, scrambledCubeScheme.back); // back
+          this.displayOneCubeSide(ctx, 99, 198, scrambledCubeScheme.bottom); // bottom
+        }
       }
     },
 

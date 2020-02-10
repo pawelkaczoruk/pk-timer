@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Logo class="logo" />
-    <SelectPanel class="select-panel" />
+    <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
     <Display class="display" />
-    <Cube class="cube" :scramble="scramble" />
+    <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
@@ -47,6 +47,11 @@ export default {
     }
   },
   methods: {
+    updateCube(cube) {
+      this.selectedCube = cube;
+      this.generateScramble(cube)
+    },
+
     generateScramble(cube) {
       let scramble;
 
