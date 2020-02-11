@@ -186,6 +186,9 @@ export default {
               date: new Date()
             });
             ob.wasTimeAdded = true;
+
+            // generate new scramble
+            this.generateScramble(this.selectedCube);
           }
         }
 
