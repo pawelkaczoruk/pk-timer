@@ -5,7 +5,7 @@
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
-    <Display class="display" />
+    <Display class="display" :time="timeFormatter(timer.time)" :ready="timer.ready" />
     <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
     <Graph class="graph" />
     <Extra class="extra" />
@@ -51,9 +51,10 @@ export default {
         isTimerRunning: false,
         timerJustStopped: true,
         timing: undefined,
-        time: undefined,
+        time: 0,
         times: [],
-        wasTimeAdded: false
+        wasTimeAdded: false,
+        ready: 'white'
       }
     }
   },
@@ -135,9 +136,6 @@ export default {
           timerVal = currentTime - startTime;
       
       ob.timing = setInterval(() => {
-        // update timer value on page
-        //timer.innerText = timeFormatter(timerVal);
-        
         currentTime = Date.now();
         timerVal = currentTime - startTime;
         ob.time = timerVal;
@@ -199,7 +197,10 @@ export default {
             ob.keydownFirstDate = Date.now();
             ob.firstTimeKeydown = false;
           }
- 
+
+          // update colors
+          ob.ready = (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? 
+            '#ff3617' : '#17ff23';
         }
       }
     });
@@ -212,12 +213,11 @@ export default {
         if(ob.timerJustStopped) {
           ob.firstTimeKeydown = true;
 
-
           if(ob.keydownCurrentDate - ob.keydownFirstDate < 550) {
-            //timer.style.color = 'white';
+            ob.ready = 'white';
           } else {
             // start counting if spacebar was pressed for at least 550ms
-            //timer.style.color = 'white';
+            ob.ready = 'white';
             ob.isTimerRunning = true;
             ob.timerJustStopped = false;
             ob.wasTimeAdded = false;
