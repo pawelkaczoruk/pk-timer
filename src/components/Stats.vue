@@ -18,6 +18,8 @@
     <div class="table">
 
     </div>
+
+    <button></button>
   </div>
 </template>
 
@@ -36,6 +38,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   h3 {
     font-size: 1.1em;
@@ -78,7 +81,23 @@ export default {
       border-top: 2px solid var(--text-color);
       background: rgba(0, 0, 0, 0.4);
     }
+  }
 
+  button {
+    width: 3em;
+    height: 3em;
+    border: none;
+    border-radius: 1.5em 1.5em 0 1.5em;
+    background: rgba(0, 0, 0, 0.5);
+    background-image: url('../assets/icons/add.png');
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    
   }
 }
 
