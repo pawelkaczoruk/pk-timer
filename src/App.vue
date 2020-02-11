@@ -5,7 +5,7 @@
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
-    <Display class="display" />
+    <Display class="display" :time="timeFormatter(timer.time)" :ready="timer.ready" />
     <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
     <Graph class="graph" />
     <Extra class="extra" />
@@ -43,7 +43,19 @@ export default {
   data() {
     return {
       selectedCube: '3x3',
-      scramble: []
+      scramble: [],
+      timer: {
+        keydownFirstDate: undefined,
+        keydownCurrentDate: undefined,
+        firstTimeKeydown: true,
+        isTimerRunning: false,
+        timerJustStopped: true,
+        timing: undefined,
+        time: 0,
+        times: [],
+        wasTimeAdded: false,
+        ready: 'white'
+      }
     }
   },
   methods: {
@@ -110,10 +122,118 @@ export default {
       }
       
       return scramble;
+    },
+
+
+
+    //          TIMER
+
+    // start timer
+    count() {
+      const ob = this.timer,
+            startTime = Date.now();
+      let currentTime = Date.now(),
+          timerVal = currentTime - startTime;
+      
+      ob.timing = setInterval(() => {
+        currentTime = Date.now();
+        timerVal = currentTime - startTime;
+        ob.time = timerVal;
+      }, 10);
+    },
+
+    // set proper time format - min:s.ms
+    timeFormatter(millis) {
+      let min, s, ms,
+          minFormat, sFormat, msFormat;
+
+      min = Math.floor(millis/60/1000);
+      s = Math.floor((millis - min*60*1000)/1000);
+      ms = Math.floor((millis % 1000)/10);
+      
+      minFormat = min < 1 ? '' : `${min}:`;
+      sFormat = (min > 0 && s < 10) ? `0${s}.` : `${s}.`;
+      msFormat = ms < 10 ? `0${ms}` : `${ms}`;
+      
+      return minFormat + sFormat + msFormat;
     }
   },
   created() {
     this.generateScramble(this.selectedCube);
+
+
+
+    //          TIMER
+
+    document.addEventListener('keydown', e => {
+      
+
+      if(e.code == 'Space') {
+        const ob = this.timer;
+
+        // stop timer
+        if(ob.isTimerRunning) {
+          clearInterval(ob.timing);
+
+          // push data to array
+          if(!ob.wasTimeAdded) {
+            ob.times.push({
+              time: ob.time,
+              scramble: this.scramble,
+              dnf: false,
+              penalty: false,
+              comment: '',
+              date: new Date()
+            });
+            ob.wasTimeAdded = true;
+
+            // generate new scramble
+            this.generateScramble(this.selectedCube);
+          }
+        }
+
+        // get first date of spacebar down and current date (to check for how long it was pressed)
+        if(ob.timerJustStopped) {
+          ob.keydownCurrentDate = Date.now();
+
+          if(ob.firstTimeKeydown) {
+            ob.keydownFirstDate = Date.now();
+            ob.firstTimeKeydown = false;
+          }
+
+          // update colors
+          ob.ready = (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? 
+            '#ff3617' : '#17ff23';
+        }
+      }
+    });
+
+    document.addEventListener('keyup', e => {
+      
+      if(e.code == 'Space') {
+        const ob = this.timer;
+
+        if(ob.timerJustStopped) {
+          ob.firstTimeKeydown = true;
+
+          if(ob.keydownCurrentDate - ob.keydownFirstDate < 550) {
+            ob.ready = 'white';
+          } else {
+            // start counting if spacebar was pressed for at least 550ms
+            ob.ready = 'white';
+            ob.isTimerRunning = true;
+            ob.timerJustStopped = false;
+            ob.wasTimeAdded = false;
+            this.count();
+          }
+          
+        } else {
+          ob.timerJustStopped = true;
+        }
+
+      }
+    });
+
   }
 }
 </script>

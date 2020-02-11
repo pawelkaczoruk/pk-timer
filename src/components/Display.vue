@@ -1,6 +1,6 @@
 <template>
   <div class="display">
-    <h2>0.00</h2>
+    <h2 :style="{ color: ready }">{{ time }}</h2>
     <div class="stats">
       <p>ao5: <span>0.00</span></p>
       <p>ao12: <span>0.00</span></p>
@@ -10,7 +10,8 @@
 
 <script>
 export default {
-  name: 'Display'
+  name: 'Display',
+  props: ['time', 'ready']
 }
 </script>
 
