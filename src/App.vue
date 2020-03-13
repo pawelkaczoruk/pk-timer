@@ -3,7 +3,7 @@
     <Logo class="logo" />
     <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
     <MenuBar class="menu-bar" />
-    <Stats class="stats" />
+    <Stats class="stats" :times="timer.times" :timeFormatter="timeFormatter"/>
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
     <Display class="display" :time="timeFormatter(timer.time)" :ready="timer.ready" />
     <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
@@ -157,6 +157,7 @@ export default {
       
       return minFormat + sFormat + msFormat;
     }
+
   },
   created() {
     this.generateScramble(this.selectedCube);
@@ -177,8 +178,8 @@ export default {
 
           // push data to array
           if(!ob.wasTimeAdded) {
-            ob.times.push({
-              time: ob.time,
+            ob.times.unshift({
+              result: ob.time,
               scramble: this.scramble,
               dnf: false,
               penalty: false,
