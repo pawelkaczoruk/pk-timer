@@ -42,8 +42,12 @@
             <td>{{ timeFormatter(time.result) }}</td>
             <td>{{ times[i+4] === undefined ? '--' : 
               getAvg([time.result, times[i+1].result, times[i+2].result, times[i+3].result, times[i+4].result])
-              }}</td>
-            <td>--</td>
+              }}
+            </td>
+            <td>{{ times[i+11] === undefined ? '--' : 
+              getAvg([time.result, times[i+1].result, times[i+2].result, times[i+3].result, times[i+4].result, times[i+5].result, times[i+6].result, times[i+7].result, times[i+8].result, times[i+9].result, times[i+10].result, times[i+11].result])
+              }}
+            </td>
           </tr>
 
 
