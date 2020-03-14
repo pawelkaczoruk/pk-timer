@@ -3,9 +3,9 @@
     <Logo class="logo" />
     <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
     <MenuBar class="menu-bar" />
-    <Stats class="stats" :times="timer.times" :timeFormatter="timeFormatter"/>
+    <Stats class="stats" :times="timer.times" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
-    <Display class="display" :time="timeFormatter(timer.time)" :ready="timer.ready" />
+    <Display class="display" :time="timer.time" :ready="timer.ready" />
     <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
     <Graph class="graph" />
     <Extra class="extra" />
@@ -124,7 +124,20 @@ export default {
       return scramble;
     },
 
+    timeFormatter(millis) {
+      let min, s, ms,
+          minFormat, sFormat, msFormat;
 
+      min = Math.floor(millis/60/1000);
+      s = Math.floor((millis - min*60*1000)/1000);
+      ms = Math.floor((millis % 1000)/10);
+      
+      minFormat = min < 1 ? '' : `${min}:`;
+      sFormat = (min > 0 && s < 10) ? `0${s}.` : `${s}.`;
+      msFormat = ms < 10 ? `0${ms}` : `${ms}`;
+      
+      return minFormat + sFormat + msFormat;
+    },
 
     //          TIMER
 
@@ -140,22 +153,6 @@ export default {
         timerVal = currentTime - startTime;
         ob.time = timerVal;
       }, 10);
-    },
-
-    // set proper time format - min:s.ms
-    timeFormatter(millis) {
-      let min, s, ms,
-          minFormat, sFormat, msFormat;
-
-      min = Math.floor(millis/60/1000);
-      s = Math.floor((millis - min*60*1000)/1000);
-      ms = Math.floor((millis % 1000)/10);
-      
-      minFormat = min < 1 ? '' : `${min}:`;
-      sFormat = (min > 0 && s < 10) ? `0${s}.` : `${s}.`;
-      msFormat = ms < 10 ? `0${ms}` : `${ms}`;
-      
-      return minFormat + sFormat + msFormat;
     }
 
   },

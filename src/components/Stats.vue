@@ -67,19 +67,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
+
 export default {
   name: 'Stats',
-  props: ['timeFormatter', 'times'],
+  mixins: [timeFormatterMixin],
+  props: ['times'],
   data() {
     return {
-      alist: [
-        { result: 1234 },
-        { result: 21234 },
-        { result: 13234 },
-        { result: 11234 },
-        { result: 41234 },
-        { result: 21234 },
-        ],
       list: [
 
         ],
@@ -88,6 +84,7 @@ export default {
       avg12: [],
     }
   },
+  computed: mapGetters(['list3']),
   methods: {
     // Count average
     getAvg(times) {
@@ -106,21 +103,7 @@ export default {
     }
   },
   created() {
-    const tl = this.alist;
-    tl.forEach((el, i) => {
-      const time = this.timeFormatter(el.result);
-      const ao5 = i <= 3 ? '--' : 
-        this.getAvg([el.result, tl[i-1].result, tl[i-2].result, tl[i-3].result, tl[i-4].result]);
-      const ao12 = i <= 12 ? '--' : 'lol';
-      console.log(el, i, time, ao5, ao12);
-
-      this.list.push({
-        time: this.timeFormatter(el.result),
-        ao5: '--',
-        ao12: '--'
-      });
-    });
-    console.log(this.list);
+    console.log(this.list3);
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="display">
-    <h2 :style="{ color: ready }">{{ time }}</h2>
+    <h2 :style="{ color: ready }">{{ timeFormatter(time) }}</h2>
     <div class="stats">
       <p>ao5: <span>0.00</span></p>
       <p>ao12: <span>0.00</span></p>
@@ -9,8 +9,11 @@
 </template>
 
 <script>
+import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
+
 export default {
   name: 'Display',
+  mixins: [timeFormatterMixin],
   props: ['time', 'ready']
 }
 </script>
