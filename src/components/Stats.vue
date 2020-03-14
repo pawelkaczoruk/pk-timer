@@ -1,17 +1,17 @@
 <template>
   <div class="stats">
     <div class="overall">
-      <h3>total sloves: <span>--</span></h3>
-      <h3>mean: <span>--</span></h3>
+      <h3>total sloves: {{ stats.list.length }}</h3>
+      <h3>mean: {{ stats.list.length === 0 ? '--' : timeFormatter(getAvg(stats.list, 0, stats.list.length, 'mean')) }}</h3>
     </div>
 
     <div class="bests">
       <h3>bests</h3>
       <div class="bests-wrap">
-        <p>single: <span>--</span></p>
-        <p>ao5: {{ avg5 }}<span>--</span></p>
-        <p>ao12: <span>--</span></p>
-        <p>mo100: <span>--</span></p>
+        <p>single: {{ stats.bests.single === undefined ? '--' : timeFormatter(stats.bests.single) }}</p>
+        <p>ao5: {{ stats.bests.ao5 === undefined ? '--' : timeFormatter(stats.bests.ao5) }}</p>
+        <p>ao12: {{ stats.bests.ao12 === undefined ? '--' : timeFormatter(stats.bests.ao12) }}</p>
+        <p>mo100: {{ stats.bests.mo100 === undefined ? '--' : timeFormatter(stats.bests.mo100) }}</p>
       </div>
     </div>
 
@@ -36,20 +36,13 @@
         </tr>
 
         <tbody>
-          <tr :key="i" v-for="(time, i) in times">
-            <th>{{ times.length - i }}.</th>
+          <tr :key="i" v-for="(time, i) in stats.list">
+            <th>{{ stats.list.length - i }}.</th>
             <td class="v-line"><div class="v-line-el"></div></td>
             <td>{{ timeFormatter(time.result) }}</td>
-            <td>{{ times[i+4] === undefined ? '--' : 
-              getAvg([time.result, times[i+1].result, times[i+2].result, times[i+3].result, times[i+4].result])
-              }}
-            </td>
-            <td>{{ times[i+11] === undefined ? '--' : 
-              getAvg([time.result, times[i+1].result, times[i+2].result, times[i+3].result, times[i+4].result, times[i+5].result, times[i+6].result, times[i+7].result, times[i+8].result, times[i+9].result, times[i+10].result, times[i+11].result])
-              }}
-            </td>
+            <td>{{ time.ao5 === undefined ? '--' : timeFormatter(time.ao5) }}</td>
+            <td>{{ time.ao12 === undefined ? '--' : timeFormatter(time.ao12) }}</td>
           </tr>
-
 
           <tr class="end-line">
             <th>0</th>
@@ -69,41 +62,25 @@
 <script>
 import { mapGetters } from 'vuex'
 import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
+import { getAvgMixin } from '../mixins/getAvgMixin'
 
 export default {
   name: 'Stats',
-  mixins: [timeFormatterMixin],
-  props: ['times'],
+  mixins: [timeFormatterMixin, getAvgMixin],
   data() {
     return {
-      list: [
-
-        ],
-      
-      avg5: [],
-      avg12: [],
+      stats: {}
     }
   },
-  computed: mapGetters(['list3']),
-  methods: {
-    // Count average
-    getAvg(times) {
-      const max = Math.max(...times),
-            min = Math.min(...times),
-            posMax = times.indexOf(max),
-            temp = times.slice(0, posMax).concat(times.slice(posMax + 1)),
-            posMin = temp.indexOf(min),
-            avg = temp.slice(0, posMin).concat(temp.slice(posMin + 1)).reduce((a, b) => a + b, 0);
-      
-      if(times.length === 5) {
-        return this.timeFormatter(avg / 3);
-      } else if(times.length === 12) {
-        return this.timeFormatter(avg / 10);
-      }
-    }
-  },
+  computed: mapGetters([
+      'c3data',
+      'getCube'
+  ]),
   created() {
-    console.log(this.list3);
+    switch(this.getCube) {
+      case 'c2': break;
+      case 'c3': this.stats = JSON.parse(JSON.stringify(this.c3data)); break;
+    }
   }
 }
 </script>

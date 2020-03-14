@@ -35,17 +35,17 @@ export default {
       },
       cubes: [
         {
-          value: '2x2',
+          value: 'c2',
           label: '2x2',
           disabled: false
         },
         {
-          value: '3x3',
+          value: 'c3',
           label: '3x3',
           disabled: false
         },
         {
-          value: '4x4',
+          value: 'c4',
           label: '4x4',
           disabled: true
         },

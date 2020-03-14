@@ -3,7 +3,7 @@
     <Logo class="logo" />
     <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
     <MenuBar class="menu-bar" />
-    <Stats class="stats" :times="timer.times" />
+    <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
     <Display class="display" :time="timer.time" :ready="timer.ready" />
     <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
@@ -25,6 +25,7 @@ import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
 
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -42,7 +43,7 @@ export default {
   },
   data() {
     return {
-      selectedCube: '3x3',
+      selectedCube: 'c3',
       scramble: [],
       timer: {
         keydownFirstDate: undefined,
@@ -58,7 +59,10 @@ export default {
       }
     }
   },
+  computed: mapGetters(['getCube']),
   methods: {
+    ...mapActions(['addTime']),
+
     updateCube(cube) {
       this.selectedCube = cube;
       this.generateScramble(cube)
@@ -68,8 +72,8 @@ export default {
       let scramble;
 
       switch(cube) {
-        case '2x2': 
-        case '3x3': scramble = this.generateScrambleNxN(cube); break;
+        case 'c2': 
+        case 'c3': scramble = this.generateScrambleNxN(cube); break;
       }
 
       this.scramble = scramble;
@@ -89,8 +93,8 @@ export default {
           length;
 
       switch(cube) {
-        case '2x2': length = Math.floor(9 + Math.random() * 3); break;
-        case '3x3': length = Math.floor(19 + Math.random() * 6); break;
+        case 'c2': length = Math.floor(9 + Math.random() * 3); break;
+        case 'c3': length = Math.floor(19 + Math.random() * 6); break;
       }
 
       for(let i=0; i<length; i++) {
@@ -122,21 +126,6 @@ export default {
       }
       
       return scramble;
-    },
-
-    timeFormatter(millis) {
-      let min, s, ms,
-          minFormat, sFormat, msFormat;
-
-      min = Math.floor(millis/60/1000);
-      s = Math.floor((millis - min*60*1000)/1000);
-      ms = Math.floor((millis % 1000)/10);
-      
-      minFormat = min < 1 ? '' : `${min}:`;
-      sFormat = (min > 0 && s < 10) ? `0${s}.` : `${s}.`;
-      msFormat = ms < 10 ? `0${ms}` : `${ms}`;
-      
-      return minFormat + sFormat + msFormat;
     },
 
     //          TIMER
@@ -175,14 +164,17 @@ export default {
 
           // push data to array
           if(!ob.wasTimeAdded) {
-            ob.times.unshift({
+            const data = {
+              cube: this.getCube,
               result: ob.time,
               scramble: this.scramble,
               dnf: false,
               penalty: false,
               comment: '',
               date: new Date()
-            });
+            }
+            this.addTime(data);
+
             ob.wasTimeAdded = true;
 
             // generate new scramble

@@ -16,5 +16,4 @@ export const timeFormatterMixin = {
       return minFormat + sFormat + msFormat;
     }
   }
-
 }
