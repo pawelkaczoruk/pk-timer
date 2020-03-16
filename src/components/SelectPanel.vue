@@ -33,47 +33,47 @@ export default {
     return {
       cubes: [
         {
-          value: 'c2',
+          value: 'cube2x2',
           label: '2x2',
           disabled: false
         },
         {
-          value: 'c3',
+          value: 'cube3x3',
           label: '3x3',
           disabled: false
         },
         {
-          value: 'c4',
+          value: 'cube4x4',
           label: '4x4',
           disabled: true
         },
         {
-          value: '5x5',
+          value: 'cube5x5',
           label: '5x5',
           disabled: true
         },
         {
-          value: '6x6',
+          value: 'cube6x6',
           label: '6x6',
           disabled: true
         },
         {
-          value: '7x7',
+          value: 'cube7x7',
           label: '7x7',
           disabled: true
         },
         {
-          value: '3x3oh',
+          value: 'cube3x3oh',
           label: '3x3 oh',
           disabled: true
         },
         {
-          value: '3x3feet',
+          value: 'cube3x3feet',
           label: '3x3 feet',
           disabled: true
         },
         {
-          value: '3x3bld',
+          value: 'cube3x3bld',
           label: '3x3 bld',
           disabled: true
         },
@@ -103,12 +103,12 @@ export default {
           disabled: true
         },
         {
-          value: '4x4bld',
+          value: 'cube4x4bld',
           label: '4x4 bld',
           disabled: true
         },
         {
-          value: '5x5bld',
+          value: 'cube5x5bld',
           label: '5x5 bld',
           disabled: true
         },

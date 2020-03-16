@@ -1,9 +1,18 @@
 const state = {
-  c2: {},
-  c3: {
+  cubeCopy: {},
+  cube2x2: {
     bests: {
-      single: 1222,
-      ao5: 1452,
+      single: 1111,
+      ao5: undefined,
+      ao12: undefined,
+      mo100: undefined
+    },
+    list: []
+  },
+  cube3x3: {
+    bests: {
+      single: undefined,
+      ao5: undefined,
       ao12: undefined,
       mo100: undefined
     },
@@ -12,11 +21,13 @@ const state = {
 };
 
 const getters = {
-  c3data: state => state.c3
+  getCubeCopy: state => state.cubeCopy,
+  getCube2x2: state => state.cube2x2,
+  getCube3x3: state => state.cube3x3
 };
 
 const actions = {
-  addTime({commit}, data) {
+  addTime({dispatch, commit}, data) {
     const ob = {
       result: data.result,
       scramble: data.scramble,
@@ -26,15 +37,24 @@ const actions = {
       date: data.date
     }
     switch(data.cube) {
-      case 'c3': commit('add_c3', ob); break;
+      case 'cube2x2': commit('ADD_CUBE_2X2_TIME', ob); break;
+      case 'cube3x3': commit('ADD_CUBE_3X3_TIME', ob); break;
+    }
+    dispatch('copyCube');
+  },
+
+  copyCube({commit, getters}) {
+    switch(getters.getSelectedCube) {
+      case 'cube2x2': commit('COPY_CUBE', getters.getCube2x2); break;
+      case 'cube3x3': commit('COPY_CUBE', getters.getCube3x3); break;
     }
   }
 };
 
 const mutations = {
-  add_c3: (state, data) => {
-    state.c3.list.unshift(data)
-  }
+  ADD_CUBE_2X2_TIME: (state, data) => state.cube2x2.list.unshift(data),
+  ADD_CUBE_3X3_TIME: (state, data) => state.cube3x3.list.unshift(data),
+  COPY_CUBE: (state, stats) => state.cubeCopy = JSON.parse(JSON.stringify(stats))
 };
 
 export default {

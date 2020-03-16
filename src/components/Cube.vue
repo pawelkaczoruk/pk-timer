@@ -62,7 +62,7 @@ export default {
         // clear before redrawing
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if(this.getSelectedCube === 'c3') {
+        if(this.getSelectedCube === 'cube3x3') {
           this.displayOneCubeSide(ctx, 99, 99, scrambledCubeScheme.front); // front
           this.displayOneCubeSide(ctx, 99, 0, scrambledCubeScheme.top); // top
           this.displayOneCubeSide(ctx, 0, 99, scrambledCubeScheme.left); // left

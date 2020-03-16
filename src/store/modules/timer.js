@@ -1,5 +1,5 @@
 const state = {
-  selectedCube: 'c3',
+  selectedCube: 'cube2x2',
   timerColor: 'white',
   time: 0,
   scramble: []
@@ -13,8 +13,9 @@ const getters = {
 };
 
 const actions = {
-  setSelectedCube({commit}, cube) {
+  setSelectedCube({dispatch, commit}, cube) {
     commit('SET_SELECTED_CUBE', cube);
+    dispatch('copyCube');
   },
 
   setTimerColor({commit}, color) {

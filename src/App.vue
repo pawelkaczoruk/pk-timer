@@ -65,7 +65,8 @@ export default {
       'addTime',
       'setTimerColor',
       'setTimeValue',
-      'setScramble'
+      'setScramble',
+      'copyCube'
     ]),
 
     updateCube(cube) {
@@ -77,8 +78,8 @@ export default {
       let scramble;
 
       switch(cube) {
-        case 'c2': 
-        case 'c3': scramble = this.generateScrambleNxN(cube); break;
+        case 'cube2x2': 
+        case 'cube3x3': scramble = this.generateScrambleNxN(cube); break;
       }
 
       this.setScramble(scramble);
@@ -98,8 +99,8 @@ export default {
           length;
 
       switch(cube) {
-        case 'c2': length = Math.floor(9 + Math.random() * 3); break;
-        case 'c3': length = Math.floor(19 + Math.random() * 6); break;
+        case 'cube2x2': length = Math.floor(9 + Math.random() * 3); break;
+        case 'cube3x3': length = Math.floor(19 + Math.random() * 6); break;
       }
 
       for(let i=0; i<length; i++) {
@@ -152,7 +153,7 @@ export default {
   },
   created() {
     this.generateScramble(this.getSelectedCube);
-
+    this.copyCube();
 
 
     //          TIMER
