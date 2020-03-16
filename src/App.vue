@@ -223,6 +223,9 @@ export default {
       }
     });
 
+  },
+  watch: {
+    getSelectedCube: function (name) { this.generateScramble(name) }
   }
 }
 </script>
