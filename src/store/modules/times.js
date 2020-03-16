@@ -1,5 +1,5 @@
 const state = {
-  c2: [],
+  c2: {},
   c3: {
     bests: {
       single: 1222,

@@ -1,6 +1,6 @@
 <template>
   <div class="display">
-    <h2 :style="{ color: ready }">{{ timeFormatter(time) }}</h2>
+    <h2 :style="{ color: getTimerColor }">{{ timeFormatter(getTimeValue) }}</h2>
     <div class="stats">
       <p>ao5: <span>0.00</span></p>
       <p>ao12: <span>0.00</span></p>
@@ -10,11 +10,15 @@
 
 <script>
 import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Display',
   mixins: [timeFormatterMixin],
-  props: ['time', 'ready']
+  computed: mapGetters([
+    'getTimerColor',
+    'getTimeValue'
+  ])
 }
 </script>
 

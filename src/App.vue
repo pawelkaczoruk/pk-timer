@@ -5,7 +5,7 @@
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
     <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
-    <Display class="display" :time="timer.time" :ready="timer.ready" />
+    <Display class="display" />
     <Cube class="cube" :scramble="scramble" />
     <Graph class="graph" />
     <Extra class="extra" />
@@ -51,16 +51,21 @@ export default {
         isTimerRunning: false,
         timerJustStopped: true,
         timing: undefined,
-        time: 0,
         times: [],
-        wasTimeAdded: false,
-        ready: 'white'
+        wasTimeAdded: false
       }
     }
   },
-  computed: mapGetters(['getSelectedCube']),
+  computed: mapGetters([
+    'getSelectedCube',
+    'getTimeValue'
+  ]),
   methods: {
-    ...mapActions(['addTime']),
+    ...mapActions([
+      'addTime',
+      'setTimerColor',
+      'setTimeValue'
+    ]),
 
     updateCube(cube) {
       this.getSelectedCube = cube;
@@ -139,7 +144,7 @@ export default {
       ob.timing = setInterval(() => {
         currentTime = Date.now();
         timerVal = currentTime - startTime;
-        ob.time = timerVal;
+        this.setTimeValue(timerVal);
       }, 10);
     }
 
@@ -165,7 +170,7 @@ export default {
           if(!ob.wasTimeAdded) {
             const data = {
               cube: this.getSelectedCube,
-              result: ob.time,
+              result: this.getTimeValue,
               scramble: this.scramble,
               dnf: false,
               penalty: false,
@@ -191,8 +196,7 @@ export default {
           }
 
           // update colors
-          ob.ready = (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? 
-            '#ff3617' : '#17ff23';
+          (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? this.setTimerColor('#ff3617') : this.setTimerColor('#17ff23');
         }
       }
     });
@@ -204,12 +208,11 @@ export default {
 
         if(ob.timerJustStopped) {
           ob.firstTimeKeydown = true;
+          this.setTimerColor('white');
 
-          if(ob.keydownCurrentDate - ob.keydownFirstDate < 550) {
-            ob.ready = 'white';
-          } else {
+          if(ob.keydownCurrentDate - ob.keydownFirstDate >= 550) {
             // start counting if spacebar was pressed for at least 550ms
-            ob.ready = 'white';
+            this.setTimerColor('white');
             ob.isTimerRunning = true;
             ob.timerJustStopped = false;
             ob.wasTimeAdded = false;
