@@ -1,7 +1,7 @@
 <template>
   <div class="select-panel">
     <label for="cube">scramble:
-      <select id="cube" v-model="selected.cube" @change="$emit('update-cube', selected.cube)">
+      <select id="cube" v-model="selectCube">
         <option 
         :key="index" 
         v-for="(cube, index) in cubes" 
@@ -25,14 +25,12 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'SelectPanel',
-  props: ['selectedCube'],
   data() {
     return {
-      selected: {
-        cube: this.selectedCube
-      },
       cubes: [
         {
           value: 'c2',
@@ -118,6 +116,16 @@ export default {
       sessions: ['1', 'test2', 'practice'],
       modes: ['normal', 'mo3', 'ao5']
     }
+  },
+  computed: {
+    ...mapGetters(['getSelectedCube']),
+    selectCube: {
+      get() { return this.getSelectedCube },
+      set(value) { this.setSelectedCube(value) } 
+    }
+  },
+  methods: {
+    ...mapActions(['setSelectedCube'])
   }
 }
 </script>

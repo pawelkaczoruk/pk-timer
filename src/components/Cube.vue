@@ -5,9 +5,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Cube',
-  props: ['scramble', 'selectedCube'],
+  props: ['scramble'],
   data() {
     return {
       scheme3x3: {
@@ -44,6 +46,7 @@ export default {
       },
     }
   },
+  computed: mapGetters(['getSelectedCube']),
   methods: {
     // atm only for 3x3 cubes
     draw(scramble, cubeScheme) {
@@ -57,7 +60,7 @@ export default {
         // clear before redrawing
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if(this.selectedCube === 'c3') {
+        if(this.getSelectedCube === 'c3') {
           this.displayOneCubeSide(ctx, 99, 99, scrambledCubeScheme.front); // front
           this.displayOneCubeSide(ctx, 99, 0, scrambledCubeScheme.top); // top
           this.displayOneCubeSide(ctx, 0, 99, scrambledCubeScheme.left); // left

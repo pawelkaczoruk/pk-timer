@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Logo class="logo" />
-    <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
+    <SelectPanel class="select-panel" />
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
-    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
+    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
     <Display class="display" :time="timer.time" :ready="timer.ready" />
-    <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
+    <Cube class="cube" :scramble="scramble" />
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
@@ -43,7 +43,6 @@ export default {
   },
   data() {
     return {
-      selectedCube: 'c3',
       scramble: [],
       timer: {
         keydownFirstDate: undefined,
@@ -59,12 +58,12 @@ export default {
       }
     }
   },
-  computed: mapGetters(['getCube']),
+  computed: mapGetters(['getSelectedCube']),
   methods: {
     ...mapActions(['addTime']),
 
     updateCube(cube) {
-      this.selectedCube = cube;
+      this.getSelectedCube = cube;
       this.generateScramble(cube)
     },
 
@@ -146,7 +145,7 @@ export default {
 
   },
   created() {
-    this.generateScramble(this.selectedCube);
+    this.generateScramble(this.getSelectedCube);
 
 
 
@@ -165,7 +164,7 @@ export default {
           // push data to array
           if(!ob.wasTimeAdded) {
             const data = {
-              cube: this.getCube,
+              cube: this.getSelectedCube,
               result: ob.time,
               scramble: this.scramble,
               dnf: false,
@@ -178,7 +177,7 @@ export default {
             ob.wasTimeAdded = true;
 
             // generate new scramble
-            this.generateScramble(this.selectedCube);
+            this.generateScramble(this.getSelectedCube);
           }
         }
 

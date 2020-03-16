@@ -74,10 +74,10 @@ export default {
   },
   computed: mapGetters([
       'c3data',
-      'getCube'
+      'getSelectedCube'
   ]),
   created() {
-    switch(this.getCube) {
+    switch(this.getSelectedCube) {
       case 'c2': break;
       case 'c3': this.stats = JSON.parse(JSON.stringify(this.c3data)); break;
     }
