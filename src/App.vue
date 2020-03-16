@@ -4,9 +4,9 @@
     <SelectPanel class="select-panel" />
     <MenuBar class="menu-bar" />
     <Stats class="stats" />
-    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
+    <Scramble class="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
     <Display class="display" />
-    <Cube class="cube" :scramble="scramble" />
+    <Cube class="cube" />
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
@@ -43,7 +43,6 @@ export default {
   },
   data() {
     return {
-      scramble: [],
       timer: {
         keydownFirstDate: undefined,
         keydownCurrentDate: undefined,
@@ -58,13 +57,15 @@ export default {
   },
   computed: mapGetters([
     'getSelectedCube',
-    'getTimeValue'
+    'getTimeValue',
+    'getScramble'
   ]),
   methods: {
     ...mapActions([
       'addTime',
       'setTimerColor',
-      'setTimeValue'
+      'setTimeValue',
+      'setScramble'
     ]),
 
     updateCube(cube) {
@@ -80,7 +81,7 @@ export default {
         case 'c3': scramble = this.generateScrambleNxN(cube); break;
       }
 
-      this.scramble = scramble;
+      this.setScramble(scramble);
     },
 
     // function to generate NxNxN scrambles - atm only for 2x2 and 3x3 cubes
@@ -171,7 +172,7 @@ export default {
             const data = {
               cube: this.getSelectedCube,
               result: this.getTimeValue,
-              scramble: this.scramble,
+              scramble: this.getScramble,
               dnf: false,
               penalty: false,
               comment: '',

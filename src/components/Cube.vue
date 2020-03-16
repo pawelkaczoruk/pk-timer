@@ -9,7 +9,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Cube',
-  props: ['scramble'],
   data() {
     return {
       scheme3x3: {
@@ -46,7 +45,10 @@ export default {
       },
     }
   },
-  computed: mapGetters(['getSelectedCube']),
+  computed: mapGetters([
+    'getSelectedCube',
+    'getScramble'
+  ]),
   methods: {
     // atm only for 3x3 cubes
     draw(scramble, cubeScheme) {
@@ -366,12 +368,10 @@ export default {
 
   },
   mounted() {
-    this.draw(this.scramble, this.scheme3x3);
+    this.draw(this.getScramble, this.scheme3x3);
   },
   watch: {
-    scramble() {
-      this.draw(this.scramble, this.scheme3x3);
-    }
+    getScramble: function() { this.draw(this.getScramble, this.scheme3x3) }
   }
 }
 </script>
