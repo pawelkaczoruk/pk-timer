@@ -2,9 +2,9 @@ const state = {
   cubeCopy: {},
   cube2x2: {
     bests: {
-      single: undefined,
-      ao5: undefined,
-      ao12: undefined,
+      single: 1000,
+      ao5: 1000,
+      ao12: 1900,
       mo100: undefined
     },
     list: [
@@ -63,8 +63,25 @@ const actions = {
       ao12: data.ao12,
       mo100: data.mo100
     });
-    
-    if(getters.getCubeCopy.bests.single > data.result || getters.getCubeCopy.bests.single === undefined) dispatch('setBests', { single: data.result});
+
+    const bests = getters.getCubeCopy.bests;
+
+    if(bests.single > data.result || !bests.single) {
+      commit('SET_CUBE_COPY_BEST_SINGLE', data.result);
+      dispatch('setBests', getters.getCubeCopy.bests);
+    }
+    if((bests.ao5 > data.ao5 || !bests.ao5) && data.ao5) {
+      commit('SET_CUBE_COPY_BEST_AO5', data.ao5);
+      dispatch('setBests', getters.getCubeCopy.bests);
+    }
+    if((bests.ao12 > data.ao12 || !bests.ao12) && data.ao12) {
+      commit('SET_CUBE_COPY_BEST_AO12', data.ao12);
+      dispatch('setBests', getters.getCubeCopy.bests);
+    }
+    if((bests.mo100 > data.mo100 || !bests.mo100) && data.mo100) {
+      commit('SET_CUBE_COPY_BEST_MO100', data.mo100);
+      dispatch('setBests', getters.getCubeCopy.bests);
+    }
   },
 
   copyCube({commit, getters}) {
@@ -74,36 +91,31 @@ const actions = {
     }
   },
 
-  copyBests({commit, getters}) {
-    switch(getters.getSelectedCube) {
-      case 'cube2x2': commit('COPY_BESTS', getters.getCube2x2.bests); break;
-      case 'cube3x3': commit('COPY_BESTS', getters.getCube3x3.bests); break;
-    }
-  },
-
   addAvgToCubeCopy({commit}, ob) {
     commit('ADD_AVG5_TO_CUBE_COPY', {index: ob.index, value: ob.ao5});
     commit('ADD_AVG12_TO_CUBE_COPY', {index: ob.index, value: ob.ao12});
     commit('ADD_MO100_TO_CUBE_COPY', {index: ob.index, value: ob.mo100});
   },
 
-  setBests({dispatch, commit, getters}, value) {
+  setBests({commit, getters}, bests) {
     switch(getters.getSelectedCube) {
-      case 'cube2x2': commit('SET_2X2_BESTS', value); break;
-      case 'cube3x3': commit('SET_3X3_BESTS', value); break;
+      case 'cube2x2': commit('SET_2X2_BESTS', bests); break;
+      case 'cube3x3': commit('SET_3X3_BESTS', bests); break;
     }
-
-    dispatch('copyBests', value);
   }
 };
 
 const mutations = {
   COPY_CUBE: (state, stats) => state.cubeCopy = JSON.parse(JSON.stringify(stats)),
-  COPY_BESTS: (state, bests) => state.cubeCopy.bests = JSON.parse(JSON.stringify(bests)),
   ADD_TIME_TO_CUBE_COPY: (state, data) => state.cubeCopy.list.unshift(data),
   ADD_AVG5_TO_CUBE_COPY: (state, ob) => state.cubeCopy.list[ob.index].ao5 = ob.value,
   ADD_AVG12_TO_CUBE_COPY: (state, ob) => state.cubeCopy.list[ob.index].ao12 = ob.value,
   ADD_MO100_TO_CUBE_COPY: (state, ob) => state.cubeCopy.list[ob.index].mo100 = ob.value,
+
+  SET_CUBE_COPY_BEST_SINGLE: (state, value) => state.cubeCopy.bests.single = value,
+  SET_CUBE_COPY_BEST_AO5: (state, value) => state.cubeCopy.bests.ao5 = value,
+  SET_CUBE_COPY_BEST_AO12: (state, value) => state.cubeCopy.bests.ao12 = value,
+  SET_CUBE_COPY_BEST_MO100: (state, value) => state.cubeCopy.bests.mo100 = value,
 
   SET_2X2_BESTS: (state, bests) => state.cube2x2.bests = JSON.parse(JSON.stringify(bests)),
   SET_3X3_BESTS: (state, bests) => state.cube3x3.bests = JSON.parse(JSON.stringify(bests)),

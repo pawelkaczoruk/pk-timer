@@ -141,9 +141,9 @@ export default {
       for(let index=0; index<list.length; index++) {
         const ob = {
           index,
-          ao5: index+5 > list.length ? undefined : this.getAvg(list, index, index+5),
-          ao12: index+12 > list.length ? undefined : this.getAvg(list, index, index+12),
-          mo100: index+100 > list.length ? undefined : this.getAvg(list, index, index+100, 'mean')
+          ao5: index+5 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+5)),
+          ao12: index+12 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+12)),
+          mo100: index+100 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+100, 'mean'))
         }
         
         this.addAvgToCubeCopy(ob);        

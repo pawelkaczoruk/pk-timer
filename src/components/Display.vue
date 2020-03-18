@@ -2,8 +2,8 @@
   <div class="display">
     <h2 :style="{ color: getTimerColor }">{{ timeFormatter(getTimeValue) }}</h2>
     <div class="stats">
-      <p>ao5: 0.00</p>
-      <p>ao12: 0.00</p>
+      <p>ao5: {{ !getCubeCopy.bests.ao5 ? '--' : timeFormatter(getCubeCopy.list[0].ao5) }}</p>
+      <p>ao12: {{ !getCubeCopy.bests.ao12 ? '--' : timeFormatter(getCubeCopy.list[0].ao12) }}</p>
     </div>
   </div>
 </template>

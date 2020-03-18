@@ -8,10 +8,10 @@
     <div class="bests">
       <h3>bests</h3>
       <div class="bests-wrap">
-        <p>single: {{ getCubeCopy.bests.single === undefined ? '--' : timeFormatter(getCubeCopy.bests.single) }}</p>
-        <p>ao5: {{ getCubeCopy.bests.ao5 === undefined ? '--' : timeFormatter(getCubeCopy.bests.ao5) }}</p>
-        <p>ao12: {{ getCubeCopy.bests.ao12 === undefined ? '--' : timeFormatter(getCubeCopy.bests.ao12) }}</p>
-        <p>mo100: {{ getCubeCopy.bests.mo100 === undefined ? '--' : timeFormatter(getCubeCopy.bests.mo100) }}</p>
+        <p>single: {{ !getCubeCopy.bests.single ? '--' : timeFormatter(getCubeCopy.bests.single) }}</p>
+        <p>ao5: {{ !getCubeCopy.bests.ao5 ? '--' : timeFormatter(getCubeCopy.bests.ao5) }}</p>
+        <p>ao12: {{ !getCubeCopy.bests.ao12 ? '--' : timeFormatter(getCubeCopy.bests.ao12) }}</p>
+        <p>mo100: {{ !getCubeCopy.bests.mo100 ? '--' : timeFormatter(getCubeCopy.bests.mo100) }}</p>
       </div>
     </div>
 
@@ -72,16 +72,16 @@ export default {
   created() {
     const list = this.getCubeCopy.list;
     
-    list.forEach((el, index) => {
+    for(let index=0; index<list.length; index++) {
       const ob = {
         index,
-        ao5: index+5 > list.length ? undefined : this.getAvg(list, index, index+5),
-        ao12: index+12 > list.length ? undefined : this.getAvg(list, index, index+12),
-        mo100: index+100 > list.length ? undefined : this.getAvg(list, index, index+100, 'mean')
+        ao5: index+5 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+5)),
+        ao12: index+12 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+12)),
+        mo100: index+100 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+100, 'mean'))
       }
       
       this.addAvgToCubeCopy(ob);
-    });
+    }
   }
 }
 </script>
