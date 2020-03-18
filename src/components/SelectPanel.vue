@@ -1,7 +1,7 @@
 <template>
   <div class="select-panel">
     <label for="cube">scramble:
-      <select id="cube" v-model="selected.cube" @change="$emit('update-cube', selected.cube)">
+      <select id="cube" v-model="selectCube" @change="addAvg()">
         <option 
         :key="index" 
         v-for="(cube, index) in cubes" 
@@ -25,57 +25,57 @@
 </template>
 
 <script>
+import { getAvgMixin } from '../mixins/getAvgMixin'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'SelectPanel',
-  props: ['selectedCube'],
+  mixins: [getAvgMixin],
   data() {
     return {
-      selected: {
-        cube: this.selectedCube
-      },
       cubes: [
         {
-          value: '2x2',
+          value: 'cube2x2',
           label: '2x2',
           disabled: false
         },
         {
-          value: '3x3',
+          value: 'cube3x3',
           label: '3x3',
           disabled: false
         },
         {
-          value: '4x4',
+          value: 'cube4x4',
           label: '4x4',
           disabled: true
         },
         {
-          value: '5x5',
+          value: 'cube5x5',
           label: '5x5',
           disabled: true
         },
         {
-          value: '6x6',
+          value: 'cube6x6',
           label: '6x6',
           disabled: true
         },
         {
-          value: '7x7',
+          value: 'cube7x7',
           label: '7x7',
           disabled: true
         },
         {
-          value: '3x3oh',
+          value: 'cube3x3oh',
           label: '3x3 oh',
           disabled: true
         },
         {
-          value: '3x3feet',
+          value: 'cube3x3feet',
           label: '3x3 feet',
           disabled: true
         },
         {
-          value: '3x3bld',
+          value: 'cube3x3bld',
           label: '3x3 bld',
           disabled: true
         },
@@ -105,18 +105,49 @@ export default {
           disabled: true
         },
         {
-          value: '4x4bld',
+          value: 'cube4x4bld',
           label: '4x4 bld',
           disabled: true
         },
         {
-          value: '5x5bld',
+          value: 'cube5x5bld',
           label: '5x5 bld',
           disabled: true
         },
       ],
       sessions: ['1', 'test2', 'practice'],
       modes: ['normal', 'mo3', 'ao5']
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getSelectedCube',
+      'getCubeCopy'
+    ]),
+    selectCube: {
+      get() { return this.getSelectedCube },
+      set(value) { this.setSelectedCube(value) } 
+    }
+  },
+  methods: {
+    ...mapActions([
+      'setSelectedCube',
+      'addAvgToCubeCopy'
+    ]),
+    
+    addAvg() {
+      const list = this.getCubeCopy.list;
+    
+      for(let index=0; index<list.length; index++) {
+        const ob = {
+          index,
+          ao5: index+5 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+5)),
+          ao12: index+12 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+12)),
+          mo100: index+100 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+100, 'mean'))
+        }
+        
+        this.addAvgToCubeCopy(ob);        
+      }
     }
   }
 }

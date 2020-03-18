@@ -1,14 +1,16 @@
 <template>
   <div class="scramble" >
-    <p>{{ scramble.join(' ') }}</p>
+    <p>{{ getScramble.join(' ') }}</p>
     <button @click="$emit('refresh-scramble')"></button>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Scramble',
-  props: ['scramble']
+  computed: mapGetters(['getScramble'])
 }
 </script>
 

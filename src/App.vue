@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Logo class="logo" />
-    <SelectPanel class="select-panel" :selectedCube="selectedCube" @update-cube="updateCube"/>
+    <SelectPanel class="select-panel" />
     <MenuBar class="menu-bar" />
-    <Stats class="stats" :times="timer.times" :timeFormatter="timeFormatter"/>
-    <Scramble class="scramble" :scramble="scramble" @refresh-scramble="generateScramble(selectedCube)" />
-    <Display class="display" :time="timeFormatter(timer.time)" :ready="timer.ready" />
-    <Cube class="cube" :scramble="scramble" :selectedCube="selectedCube"/>
+    <Stats class="stats" />
+    <Scramble class="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
+    <Display class="display" />
+    <Cube class="cube" />
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
@@ -25,9 +25,13 @@ import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
 
+import { getAvgMixin } from './mixins/getAvgMixin'
+
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
+  mixins: [getAvgMixin],
   components: {
     Logo,
     SelectPanel,
@@ -42,8 +46,6 @@ export default {
   },
   data() {
     return {
-      selectedCube: '3x3',
-      scramble: [],
       timer: {
         keydownFirstDate: undefined,
         keydownCurrentDate: undefined,
@@ -51,16 +53,28 @@ export default {
         isTimerRunning: false,
         timerJustStopped: true,
         timing: undefined,
-        time: 0,
         times: [],
-        wasTimeAdded: false,
-        ready: 'white'
+        wasTimeAdded: false
       }
     }
   },
+  computed: mapGetters([
+    'getSelectedCube',
+    'getTimeValue',
+    'getScramble',
+    'getCubeCopy'
+  ]),
   methods: {
+    ...mapActions([
+      'addTime',
+      'setTimerColor',
+      'setTimeValue',
+      'setScramble',
+      'copyCube'
+    ]),
+
     updateCube(cube) {
-      this.selectedCube = cube;
+      this.getSelectedCube = cube;
       this.generateScramble(cube)
     },
 
@@ -68,11 +82,11 @@ export default {
       let scramble;
 
       switch(cube) {
-        case '2x2': 
-        case '3x3': scramble = this.generateScrambleNxN(cube); break;
+        case 'cube2x2': 
+        case 'cube3x3': scramble = this.generateScrambleNxN(cube); break;
       }
 
-      this.scramble = scramble;
+      this.setScramble(scramble);
     },
 
     // function to generate NxNxN scrambles - atm only for 2x2 and 3x3 cubes
@@ -89,8 +103,8 @@ export default {
           length;
 
       switch(cube) {
-        case '2x2': length = Math.floor(9 + Math.random() * 3); break;
-        case '3x3': length = Math.floor(19 + Math.random() * 6); break;
+        case 'cube2x2': length = Math.floor(9 + Math.random() * 3); break;
+        case 'cube3x3': length = Math.floor(19 + Math.random() * 6); break;
       }
 
       for(let i=0; i<length; i++) {
@@ -124,10 +138,6 @@ export default {
       return scramble;
     },
 
-
-
-    //          TIMER
-
     // start timer
     count() {
       const ob = this.timer,
@@ -138,37 +148,20 @@ export default {
       ob.timing = setInterval(() => {
         currentTime = Date.now();
         timerVal = currentTime - startTime;
-        ob.time = timerVal;
+        this.setTimeValue(timerVal);
       }, 10);
-    },
-
-    // set proper time format - min:s.ms
-    timeFormatter(millis) {
-      let min, s, ms,
-          minFormat, sFormat, msFormat;
-
-      min = Math.floor(millis/60/1000);
-      s = Math.floor((millis - min*60*1000)/1000);
-      ms = Math.floor((millis % 1000)/10);
-      
-      minFormat = min < 1 ? '' : `${min}:`;
-      sFormat = (min > 0 && s < 10) ? `0${s}.` : `${s}.`;
-      msFormat = ms < 10 ? `0${ms}` : `${ms}`;
-      
-      return minFormat + sFormat + msFormat;
     }
 
   },
   created() {
-    this.generateScramble(this.selectedCube);
+    this.generateScramble(this.getSelectedCube);
+    this.copyCube();
 
 
 
     //          TIMER
-
     document.addEventListener('keydown', e => {
       
-
       if(e.code == 'Space') {
         const ob = this.timer;
 
@@ -178,18 +171,26 @@ export default {
 
           // push data to array
           if(!ob.wasTimeAdded) {
-            ob.times.unshift({
-              result: ob.time,
-              scramble: this.scramble,
+            const data = {
+              cube: this.getSelectedCube,
+              result: this.getTimeValue,
+              scramble: this.getScramble,
+              ao5: this.getCubeCopy.list.length < 4 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 5)),
+              ao12: this.getCubeCopy.list.length < 11 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 12)),
+              mo100: this.getCubeCopy.list.length < 99 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 100)),
               dnf: false,
               penalty: false,
               comment: '',
               date: new Date()
-            });
+            }
+
+            // add time in store
+            this.addTime(data);
+
             ob.wasTimeAdded = true;
 
             // generate new scramble
-            this.generateScramble(this.selectedCube);
+            this.generateScramble(this.getSelectedCube);
           }
         }
 
@@ -203,8 +204,7 @@ export default {
           }
 
           // update colors
-          ob.ready = (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? 
-            '#ff3617' : '#17ff23';
+          (ob.keydownCurrentDate - ob.keydownFirstDate < 550) ? this.setTimerColor('#ff3617') : this.setTimerColor('#17ff23');
         }
       }
     });
@@ -216,12 +216,11 @@ export default {
 
         if(ob.timerJustStopped) {
           ob.firstTimeKeydown = true;
+          this.setTimerColor('white');
 
-          if(ob.keydownCurrentDate - ob.keydownFirstDate < 550) {
-            ob.ready = 'white';
-          } else {
+          if(ob.keydownCurrentDate - ob.keydownFirstDate >= 550) {
             // start counting if spacebar was pressed for at least 550ms
-            ob.ready = 'white';
+            this.setTimerColor('white');
             ob.isTimerRunning = true;
             ob.timerJustStopped = false;
             ob.wasTimeAdded = false;
@@ -235,6 +234,9 @@ export default {
       }
     });
 
+  },
+  watch: {
+    getSelectedCube: function (name) { this.generateScramble(name) }
   }
 }
 </script>
