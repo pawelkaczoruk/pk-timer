@@ -1,6 +1,5 @@
 export const getAvgMixin = {
   methods: {
-    // Count average
     getAvg(list, firstIndex, lastIndex, type = 'avg') {
       const times = list.slice(firstIndex, lastIndex).map(el => el.result);
 

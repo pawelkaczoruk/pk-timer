@@ -2,8 +2,8 @@
   <div class="display">
     <h2 :style="{ color: getTimerColor }">{{ timeFormatter(getTimeValue) }}</h2>
     <div class="stats">
-      <p>ao5: <span>0.00</span></p>
-      <p>ao12: <span>0.00</span></p>
+      <p>ao5: 0.00</p>
+      <p>ao12: 0.00</p>
     </div>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
   mixins: [timeFormatterMixin],
   computed: mapGetters([
     'getTimerColor',
-    'getTimeValue'
+    'getTimeValue',
+    'getCubeCopy'
   ])
 }
 </script>

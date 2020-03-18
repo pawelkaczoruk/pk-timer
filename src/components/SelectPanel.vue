@@ -1,7 +1,7 @@
 <template>
   <div class="select-panel">
     <label for="cube">scramble:
-      <select id="cube" v-model="selectCube">
+      <select id="cube" v-model="selectCube" @change="addAvg()">
         <option 
         :key="index" 
         v-for="(cube, index) in cubes" 
@@ -25,10 +25,12 @@
 </template>
 
 <script>
+import { getAvgMixin } from '../mixins/getAvgMixin'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'SelectPanel',
+  mixins: [getAvgMixin],
   data() {
     return {
       cubes: [
@@ -118,14 +120,35 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getSelectedCube']),
+    ...mapGetters([
+      'getSelectedCube',
+      'getCubeCopy'
+    ]),
     selectCube: {
       get() { return this.getSelectedCube },
       set(value) { this.setSelectedCube(value) } 
     }
   },
   methods: {
-    ...mapActions(['setSelectedCube'])
+    ...mapActions([
+      'setSelectedCube',
+      'addAvgToCubeCopy'
+    ]),
+    
+    addAvg() {
+      const list = this.getCubeCopy.list;
+    
+      for(let index=0; index<list.length; index++) {
+        const ob = {
+          index,
+          ao5: index+5 > list.length ? undefined : this.getAvg(list, index, index+5),
+          ao12: index+12 > list.length ? undefined : this.getAvg(list, index, index+12),
+          mo100: index+100 > list.length ? undefined : this.getAvg(list, index, index+100, 'mean')
+        }
+        
+        this.addAvgToCubeCopy(ob);        
+      }
+    }
   }
 }
 </script>

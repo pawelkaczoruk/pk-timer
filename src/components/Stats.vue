@@ -60,17 +60,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
 import { getAvgMixin } from '../mixins/getAvgMixin'
 
 export default {
   name: 'Stats',
   mixins: [timeFormatterMixin, getAvgMixin],
-  computed: mapGetters([
-      'getCubeCopy',
-      'getSelectedCube'
-  ])
+  computed: mapGetters(['getCubeCopy']),
+  methods: mapActions(['addAvgToCubeCopy']),
+  created() {
+    const list = this.getCubeCopy.list;
+    
+    list.forEach((el, index) => {
+      const ob = {
+        index,
+        ao5: index+5 > list.length ? undefined : this.getAvg(list, index, index+5),
+        ao12: index+12 > list.length ? undefined : this.getAvg(list, index, index+12),
+        mo100: index+100 > list.length ? undefined : this.getAvg(list, index, index+100, 'mean')
+      }
+      
+      this.addAvgToCubeCopy(ob);
+    });
+  }
 }
 </script>
 

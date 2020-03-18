@@ -25,10 +25,13 @@ import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
 
+import { getAvgMixin } from './mixins/getAvgMixin'
+
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
+  mixins: [getAvgMixin],
   components: {
     Logo,
     SelectPanel,
@@ -58,7 +61,8 @@ export default {
   computed: mapGetters([
     'getSelectedCube',
     'getTimeValue',
-    'getScramble'
+    'getScramble',
+    'getCubeCopy'
   ]),
   methods: {
     ...mapActions([
@@ -134,8 +138,6 @@ export default {
       return scramble;
     },
 
-    //          TIMER
-
     // start timer
     count() {
       const ob = this.timer,
@@ -156,11 +158,10 @@ export default {
     this.copyCube();
 
 
-    //          TIMER
 
+    //          TIMER
     document.addEventListener('keydown', e => {
       
-
       if(e.code == 'Space') {
         const ob = this.timer;
 
@@ -174,11 +175,16 @@ export default {
               cube: this.getSelectedCube,
               result: this.getTimeValue,
               scramble: this.getScramble,
+              ao5: this.getCubeCopy.list.length < 4 ? undefined : this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 5),
+              ao12: this.getCubeCopy.list.length < 11 ? undefined : this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 12),
+              mo100: this.getCubeCopy.list.length < 99 ? undefined : this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 100),
               dnf: false,
               penalty: false,
               comment: '',
               date: new Date()
             }
+
+            // add time in store
             this.addTime(data);
 
             ob.wasTimeAdded = true;
