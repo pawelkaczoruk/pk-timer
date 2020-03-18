@@ -10,12 +10,6 @@
       </select>
     </label>
 
-    <label for="session">session:
-      <select id="session">
-        <option :key="index" v-for="(session, index) in sessions" value="index">{{ session }}</option>
-      </select>
-    </label>
-
     <label for="mode">mode:
       <select id="mode">
         <option :key="index" v-for="(mode, index) in modes" :value="mode">{{ mode }}</option>
@@ -115,7 +109,6 @@ export default {
           disabled: true
         },
       ],
-      sessions: ['1', 'test2', 'practice'],
       modes: ['normal', 'mo3', 'ao5']
     }
   },
