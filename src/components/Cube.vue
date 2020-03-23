@@ -387,6 +387,8 @@ export default {
   align-items: center;
   overflow: hidden;
 
+  display: none;
+
   canvas {
     max-height: 96%;
   }

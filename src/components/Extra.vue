@@ -15,6 +15,8 @@ export default {
 .extra {
   width: 100%;
   height: 100%;
+
+  display: none;
 }
 
 </style>

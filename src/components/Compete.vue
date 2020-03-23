@@ -25,6 +25,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  
+  display:none;
 
   p {
     font-size: 1.25em;
