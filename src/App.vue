@@ -24,6 +24,7 @@ import Cube from './components/Cube'
 import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
+import MobileMenu from './components/MobileMenu'
 
 import { getAvgMixin } from './mixins/getAvgMixin'
 
