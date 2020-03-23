@@ -92,7 +92,8 @@ export default {
   height: 100%;
   width: 100%;
   padding: 1em 0 1em 0;
-  background: var(--grey);
+  //background: var(--grey);
+  background: var(--space-blue);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,6 +144,8 @@ export default {
   }
 
   button {
+    display: none;
+
     width: 3em;
     height: 3em;
     border: none;
@@ -159,6 +162,8 @@ export default {
   }
 
   .table-container {
+    display: none;
+
     margin-top: 1em;
     height: calc(100% - 13.5em);
 

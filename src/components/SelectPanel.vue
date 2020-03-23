@@ -156,6 +156,8 @@ export default {
   justify-content: space-around;
   align-items: center;
 
+  display: none;
+
   label, select {
     font-size: 1.5rem;
   }

@@ -10,6 +10,7 @@
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
+    <MobileMenu class="mobile-menu" />
   </div>
 </template>
 
@@ -43,7 +44,8 @@ export default {
     Cube,
     Graph,
     Extra,
-    Compete
+    Compete,
+    MobileMenu
   },
   data() {
     return {
@@ -271,7 +273,7 @@ export default {
                        "scramble scramble"
                        "displayTime displayTime"
                        "stats stats"
-                       "selectPanel selectPanel";
+                       "mobileMenu mobileMenu";
   // grid-template: 3em 2fr 6fr 1.5fr 3.5fr 7em / 250px 2fr 1fr 290px;
   // grid-template-areas: "logo selectPanel selectPanel menuBar"
   //                      "stats scramble scramble scramble"
@@ -319,6 +321,10 @@ export default {
 
 .compete {
   grid-area: compete;
+}
+
+.mobile-menu {
+  grid-area: mobileMenu;
 }
 
 </style>
