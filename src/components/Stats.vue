@@ -92,11 +92,16 @@ export default {
   height: 100%;
   width: 100%;
   padding: 1em 0 1em 0;
-  background: var(--grey);
+  background: var(--space-blue);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    background: var(--grey);
+  }
 
   h3 {
     font-size: 1.1em;
@@ -143,6 +148,8 @@ export default {
   }
 
   button {
+    display: none;
+
     width: 3em;
     height: 3em;
     border: none;
@@ -159,20 +166,23 @@ export default {
   }
 
   .table-container {
+    display: none;
     margin-top: 1em;
     height: calc(100% - 13.5em);
+
+    @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+           screen and (min-width: 1024px) and (orientation: portrait) {
+      display: block;
+    }
 
     table {
       border-collapse: collapse;
       display: block;
       max-height: 100%;
       overflow-y: scroll;
+      -ms-overflow-style: none; // hide scrollbar on IE and Edge
 
-      // hide scrollbar on IE and Edge
-      -ms-overflow-style: none;
-
-      // hide scrollbar on Chrome, Safari and Opera
-      &::-webkit-scrollbar {
+      &::-webkit-scrollbar { // hide scrollbar on Chrome, Safari and Opera
         display: none;
       }
 

@@ -152,9 +152,14 @@ export default {
   height: 100%;
   width: 100%;
   background: var(--denim-blue);
-  display: flex;
   justify-content: space-around;
   align-items: center;
+  display: none;
+  
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    display: flex;
+  }
 
   label, select {
     font-size: 1.5rem;

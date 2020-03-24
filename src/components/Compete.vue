@@ -21,10 +21,15 @@ export default {
   width: 100%;
   height: 100%;
   background: var(--aegan-blue);
-  display:flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  display:none;
+
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    display:flex;
+  }
 
   p {
     font-size: 1.25em;

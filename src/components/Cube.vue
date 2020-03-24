@@ -382,10 +382,15 @@ export default {
   height: 100%;
   width: 100%;
   background: var(--space-blue);
-  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  display: none;
+
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    display:flex;
+  }
 
   canvas {
     max-height: 96%;

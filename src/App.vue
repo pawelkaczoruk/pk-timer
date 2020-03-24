@@ -10,6 +10,7 @@
     <Graph class="graph" />
     <Extra class="extra" />
     <Compete class="compete" />
+    <MobileMenu class="mobile-menu" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import Cube from './components/Cube'
 import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
+import MobileMenu from './components/MobileMenu'
 
 import { getAvgMixin } from './mixins/getAvgMixin'
 
@@ -42,7 +44,8 @@ export default {
     Cube,
     Graph,
     Extra,
-    Compete
+    Compete,
+    MobileMenu
   },
   data() {
     return {
@@ -233,7 +236,20 @@ export default {
 
       }
     });
+    
 
+
+    //          STYLES
+
+    // get viewport height, multiple it to get value for vh unit. Set the value in --vh custom property
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    // same script when window is resized
+    window.addEventListener('resize', () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
   },
   watch: {
     getSelectedCube: function (name) { this.generateScramble(name) }
@@ -247,19 +263,35 @@ export default {
 @import url('./assets/styles/reset.scss');
 
 
-
-
 #app { 
-  height: 100vh;
+  height: 100vh; // fallback for browsers that do not support custom properties
+  height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
+  max-width: 2400px;
+  margin: 0 auto;
   display: grid;
-  grid-template: 3em 2fr 6fr 1.5fr 3.5fr 7em / 250px 2fr 1fr 290px;
-  grid-template-areas: "logo selectPanel selectPanel menuBar"
-                       "stats scramble scramble scramble"
-                       "stats displayTime cube cube"
-                       "stats graph cube cube"
-                       "stats graph extra extra"
-                       "compete graph extra extra";
+  grid-template: 52px 100px 1fr 200px 52px / 52px 1fr;
+  grid-template-areas: "logo menuBar"
+                       "scramble scramble"
+                       "displayTime displayTime"
+                       "stats stats"
+                       "mobileMenu mobileMenu";
+
+  @media screen and (min-width: 370px) {
+    grid-template: 62px 100px 1fr 200px 62px / 62px 1fr;
+  }
+
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    grid-template: 3rem 2fr 6fr 1.5fr 3.5fr 7rem / 250px 2fr 1fr 290px;
+    grid-template-areas: "logo selectPanel selectPanel menuBar"
+                        "stats scramble scramble scramble"
+                        "stats displayTime cube cube"
+                        "stats graph cube cube"
+                        "stats graph extra extra"
+                        "compete graph extra extra";
+  }
+
 }
 
 .logo {
@@ -300,6 +332,10 @@ export default {
 
 .compete {
   grid-area: compete;
+}
+
+.mobile-menu {
+  grid-area: mobileMenu;
 }
 
 </style>

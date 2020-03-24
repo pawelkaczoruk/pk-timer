@@ -26,8 +26,20 @@ export default {
     cursor: pointer;
   }
 
+  --btn-size: 3.25rem; 
+
+  @media screen and (min-width: 370px) {
+    --btn-size: 3.875rem;
+  }
+
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+        screen and (min-width: 1024px) and (orientation: portrait) {
+    --btn-size: 3rem;
+  }
+
   .settings {
-    width: 3rem;
+    width: var(--btn-size);
+    height: var(--btn-size);
     background: var(--navy-blue);
     background-image: url('../assets/icons/settings.png');
     background-position: center;
@@ -36,12 +48,12 @@ export default {
   }
 
   .sign-in {
-    width: calc((100% - 3rem) / 2);
+    width: calc((100% - var(--btn-size)) / 2);
     background: var(--purple);
   }
 
   .contact {
-    width: calc((100% - 3rem) / 2);
+    width: calc((100% - var(--btn-size)) / 2);
     background: var(--strawberry);
   }
 }
