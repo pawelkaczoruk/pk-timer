@@ -150,19 +150,23 @@ export default {
   button {
     display: none;
 
-    width: 3em;
-    height: 3em;
-    border: none;
-    border-radius: 1.5em 1.5em 0 1.5em;
-    background: rgba(0, 0, 0, 0.5);
-    background-image: url('../assets/icons/add.png');
-    background-position: center;
-    background-size: 50%;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+          screen and (min-width: 1024px) and (orientation: portrait) {
+      display: inline-block;
+      width: 3em;
+      height: 3em;
+      border: none;
+      border-radius: 1.5em 1.5em 0 1.5em;
+      background: rgba(0, 0, 0, 0.5);
+      background-image: url('../assets/icons/add.png');
+      background-position: center;
+      background-size: 50%;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      position: absolute;
+      bottom: 0;
+      right: 0;      
+    }
   }
 
   .table-container {
