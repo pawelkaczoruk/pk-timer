@@ -98,7 +98,7 @@ export default {
   align-items: center;
   position: relative;
 
-  @media screen and (min-width: 768px) and (min-height: 500px) and (orientation: landscape),
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {
     background: var(--grey);
   }
@@ -170,7 +170,7 @@ export default {
     margin-top: 1em;
     height: calc(100% - 13.5em);
 
-    @media screen and (min-width: 768px) and (min-height: 500px) and (orientation: landscape),
+    @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
            screen and (min-width: 1024px) and (orientation: portrait) {
       display: block;
     }

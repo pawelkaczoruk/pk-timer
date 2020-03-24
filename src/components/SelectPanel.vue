@@ -156,7 +156,7 @@ export default {
   align-items: center;
   display: none;
   
-  @media screen and (min-width: 768px) and (min-height: 500px) and (orientation: landscape),
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {
     display: flex;
   }

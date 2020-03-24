@@ -281,7 +281,7 @@ export default {
     grid-template: 62px 100px 1fr 200px 62px / 62px 1fr;
   }
 
-  @media screen and (min-width: 768px) and (min-height: 500px) and (orientation: landscape),
+  @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {
     grid-template: 3rem 2fr 6fr 1.5fr 3.5fr 7rem / 250px 2fr 1fr 290px;
     grid-template-areas: "logo selectPanel selectPanel menuBar"
