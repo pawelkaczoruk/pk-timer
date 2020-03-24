@@ -29,6 +29,11 @@ export default {
   justify-content: space-between;
   background: var(--space-blue);
 
+  @media screen and (min-width: 768px) and (min-height: 500px) and (orientation: landscape),
+         screen and (min-width: 1024px) and (orientation: portrait) {
+    display: none;
+  }
+
   button {
     height: 3.25rem;
     width: 3.25rem;
@@ -36,6 +41,11 @@ export default {
     outline: none;
     background: var(--navy-blue);
     cursor: pointer;
+
+    @media screen and (min-width: 370px) {
+      height: 3.875rem;
+      width: 3.875rem;
+    }
   }
 
   .times-list {
@@ -73,7 +83,7 @@ export default {
     background-image: url('../assets/icons/select-cube.png');
     background-position: center;
     background-repeat: no-repeat;
-  }  
+  }
 }
 
 </style>
