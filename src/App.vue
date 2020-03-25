@@ -57,7 +57,8 @@ export default {
         timerJustStopped: true,
         timing: undefined,
         times: [],
-        wasTimeAdded: false
+        wasTimeAdded: false,
+        touchTimeout: undefined
       }
     }
   },
@@ -154,17 +155,14 @@ export default {
         this.setTimeValue(timerVal);
       }, 10);
     }
-
   },
   created() {
     this.generateScramble(this.getSelectedCube);
     this.copyCube();
 
 
-
     //          TIMER
     document.addEventListener('keydown', e => {
-      
       if(e.code == 'Space') {
         const ob = this.timer;
 
@@ -172,7 +170,6 @@ export default {
         if(ob.isTimerRunning) {
           clearInterval(ob.timing);
 
-          // push data to array
           if(!ob.wasTimeAdded) {
             const data = {
               cube: this.getSelectedCube,
@@ -213,7 +210,6 @@ export default {
     });
 
     document.addEventListener('keyup', e => {
-      
       if(e.code == 'Space') {
         const ob = this.timer;
 
@@ -233,7 +229,78 @@ export default {
         } else {
           ob.timerJustStopped = true;
         }
+      }
+    });
 
+    document.addEventListener('touchstart', () => {
+      const ob = this.timer;
+
+      // stop timer
+      if(ob.isTimerRunning) {
+        clearInterval(ob.timing);
+
+        if(!ob.wasTimeAdded) {
+          const data = {
+            cube: this.getSelectedCube,
+            result: this.getTimeValue,
+            scramble: this.getScramble,
+            ao5: this.getCubeCopy.list.length < 4 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 5)),
+            ao12: this.getCubeCopy.list.length < 11 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 12)),
+            mo100: this.getCubeCopy.list.length < 99 ? undefined : Math.floor(this.getAvg([{result: this.getTimeValue}, ...this.getCubeCopy.list], 0, 100)),
+            dnf: false,
+            penalty: false,
+            comment: '',
+            date: new Date()
+          }
+
+          // add time in store
+          this.addTime(data);
+
+          ob.wasTimeAdded = true;
+
+          // generate new scramble
+          this.generateScramble(this.getSelectedCube);
+          
+        }
+      }
+
+      if(ob.timerJustStopped) {
+        ob.keydownCurrentDate = Date.now();
+
+        this.touchTimeout = setTimeout(() => {
+          this.setTimerColor('#17ff23');
+          ob.keydownCurrentDate = Date.now();
+        }, 550);
+
+        this.setTimerColor('#ff3617');
+
+        if(ob.firstTimeKeydown) {
+          ob.keydownFirstDate = Date.now();
+          ob.firstTimeKeydown = false;
+        }
+
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      const ob = this.timer;
+      
+      clearTimeout(this.touchTimeout);
+
+      if(ob.timerJustStopped) {
+        ob.firstTimeKeydown = true;
+        this.setTimerColor('white');
+
+        if(ob.keydownCurrentDate - ob.keydownFirstDate >= 550) {
+          this.setTimerColor('white');
+          ob.isTimerRunning = true;
+          ob.timerJustStopped = false;
+          ob.wasTimeAdded = false;
+          this.count();
+        }
+        
+      } else {
+        ob.timerJustStopped = true;
       }
     });
     
@@ -250,6 +317,7 @@ export default {
       let vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
+
   },
   watch: {
     getSelectedCube: function (name) { this.generateScramble(name) }
