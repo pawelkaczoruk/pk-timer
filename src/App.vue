@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <Logo class="logo" />
-    <SelectPanel class="select-panel" />
-    <MenuBar class="menu-bar" />
-    <Stats class="stats" />
-    <Scramble class="scramble" @refresh-scramble="generateScramble(getSelectedCube)" />
-    <Display class="display" />
-    <Cube class="cube" />
-    <Graph class="graph" />
-    <Extra class="extra" />
-    <Compete class="compete" />
-    <MobileMenu class="mobile-menu" />
+    <Logo />
+    <SelectPanel />
+    <MenuBar />
+    <Stats />
+    <Scramble @refresh-scramble="generateScramble(getSelectedCube)" />
+    <Display />
+    <Cube />
+    <Graph />
+    <Extra />
+    <Compete />
+    <MobileMenu />
+    <Modal />
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import Graph from './components/Graph'
 import Extra from './components/Extra'
 import Compete from './components/Compete'
 import MobileMenu from './components/MobileMenu'
+import Modal from './components/Modal'
 
 import { getAvgMixin } from './mixins/getAvgMixin'
 
@@ -45,7 +47,8 @@ export default {
     Graph,
     Extra,
     Compete,
-    MobileMenu
+    MobileMenu,
+    Modal
   },
   data() {
     return {
