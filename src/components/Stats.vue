@@ -97,10 +97,12 @@ export default {
   flex-direction: column;
   align-items: center;
   position: relative;
+  user-select: none;
 
   @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {
     background: var(--grey);
+    user-select: initial;
   }
 
   h3 {
@@ -167,6 +169,7 @@ export default {
       bottom: 0;
       right: 0;
       transition: background-color .2s linear;
+      outline: none;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.3);

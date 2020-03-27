@@ -25,6 +25,7 @@ export default {
   align-items: center;
   justify-content: space-around;
   display:none;
+  user-select: none;
 
   @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {
@@ -65,7 +66,6 @@ export default {
     border-radius: .4rem;
     cursor: pointer;
     transition: background .2s linear;
-
     &:hover {
       cursor: not-allowed;
       background:rgba(255, 255, 255, .1);

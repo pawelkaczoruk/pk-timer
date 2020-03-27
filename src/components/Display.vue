@@ -34,6 +34,7 @@ export default {
   align-items: center;
   justify-content: space-around;
   text-align: center;
+  user-select: none;
 
   h2 {
     font-size: 4.5em;

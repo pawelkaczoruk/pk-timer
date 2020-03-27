@@ -29,6 +29,12 @@ export default {
     text-align: center;
     font-size: 1.5em;
     letter-spacing: .1em;
+    user-select: none;
+
+    @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
+      screen and (min-width: 1024px) and (orientation: portrait) {
+      user-select: initial;
+    }
   }
   
   button {
@@ -46,6 +52,7 @@ export default {
     background-size: 50%;
     background-repeat: no-repeat;
     transition: background-color .2s linear;
+    outline: none;
 
     &:hover {
       background-color:rgba(255, 255, 255, .1);

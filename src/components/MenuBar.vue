@@ -25,6 +25,8 @@ export default {
     vertical-align: top;
     cursor: not-allowed;
     transition: background-color .2s linear;
+    user-select: none;
+    outline: none;
   }
 
   --btn-size: 3.25rem; 
