@@ -183,16 +183,21 @@ export default {
   }
 
   select {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, .45);
     border: none;
     border-radius: .4rem;
     opacity: .5;
     margin-left: .2em;
     padding: 0 .3em;
     cursor: pointer;
+    transition: background .2s linear;
 
     option {
       background: var(--denim-blue);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, .15);
     }
   }
 

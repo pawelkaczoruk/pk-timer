@@ -157,7 +157,7 @@ export default {
       height: 3em;
       border: none;
       border-radius: 1.5em 1.5em 0 1.5em;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, .5);
       background-image: url('../assets/icons/add.png');
       background-position: center;
       background-size: 50%;
@@ -165,7 +165,12 @@ export default {
       cursor: pointer;
       position: absolute;
       bottom: 0;
-      right: 0;      
+      right: 0;
+      transition: background-color .2s linear;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
     }
   }
 

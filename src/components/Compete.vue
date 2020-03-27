@@ -3,8 +3,8 @@
     <p>compete with friend</p>
     <form>
       <label for="id">ID:</label>
-      <input id="id" type="text">
-      <button>go</button>
+      <input id="id" type="text" disabled>
+      <button disabled>go</button>
     </form>
   </div>
 </template>
@@ -42,21 +42,34 @@ export default {
   input {
     height: 1.75rem;
     width: 6rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, .3);
     border: none;
     border-radius: 4px;
     padding: 0 1rem;
     font-size: 1.1rem;
     margin: 0 .75rem;
+    transition: background .2s linear;
+
+    &:hover {
+      cursor: not-allowed;
+      background: rgba(0, 0, 0, .5);
+    }
   }
 
   button {
     height: 1.75rem;
     width: 2.5rem;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, .2);
     font-size: 1.1rem;
     border: none;
     border-radius: .4rem;
+    cursor: pointer;
+    transition: background .2s linear;
+
+    &:hover {
+      cursor: not-allowed;
+      background:rgba(255, 255, 255, .1);
+    }
   }
 }
 

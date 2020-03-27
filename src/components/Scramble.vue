@@ -40,11 +40,16 @@ export default {
     cursor: pointer;
     border: none;
     border-radius: 1.5rem 0 1.5rem 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, .5);
     background-image: url('../assets/icons/reload.png');
     background-position: center;
     background-size: 50%;
     background-repeat: no-repeat;
+    transition: background-color .2s linear;
+
+    &:hover {
+      background-color:rgba(255, 255, 255, .1);
+    }
   }
 }
 

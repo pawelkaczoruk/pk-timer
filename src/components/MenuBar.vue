@@ -1,8 +1,8 @@
 <template>
   <div class="menu">
-    <button class="settings"></button>
-    <button class="sign-in">sign in</button>
-    <button class="contact">contact</button>
+    <button class="settings" disabled></button>
+    <button class="sign-in" disabled>sign in</button>
+    <button class="contact" disabled>contact</button>
   </div>
 </template>
 
@@ -23,7 +23,8 @@ export default {
     font-size: 1.5em;
     border: none;
     vertical-align: top;
-    cursor: pointer;
+    cursor: not-allowed;
+    transition: background-color .2s linear;
   }
 
   --btn-size: 3.25rem; 
@@ -45,16 +46,28 @@ export default {
     background-position: center;
     background-size: 62.5% 62.5%;
     background-repeat: no-repeat;
+
+    &:hover {
+      background-color: var(--navy-blue-hover);
+    }
   }
 
   .sign-in {
     width: calc((100% - var(--btn-size)) / 2);
     background: var(--purple);
+
+    &:hover {
+      background-color: var(--purple-hover);
+    }
   }
 
   .contact {
     width: calc((100% - var(--btn-size)) / 2);
     background: var(--strawberry);
+
+    &:hover {
+      background-color: var(--strawberry-hover);
+    }
   }
 }
 
