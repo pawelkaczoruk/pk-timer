@@ -12,7 +12,11 @@
 
     <label for="mode">mode:
       <select id="mode">
-        <option :key="index" v-for="(mode, index) in modes" :value="mode">{{ mode }}</option>
+        <option 
+        :key="index" 
+        v-for="(mode, index) in modes" 
+        :value="mode"
+        :disabled="mode.disabled">{{ mode.label }}</option>
       </select>
     </label>
   </div>
@@ -109,7 +113,20 @@ export default {
           disabled: true
         },
       ],
-      modes: ['normal', 'mo3', 'ao5']
+      modes: [
+        {
+          label: 'normal',
+          disabled: false
+        },
+        { 
+          label: 'mo3',
+          disabled: true
+        },
+        {
+          label: 'ao5',
+          disabled: true
+        }
+      ]
     }
   },
   computed: {
