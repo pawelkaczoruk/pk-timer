@@ -55,7 +55,7 @@
       </table>
     </div>
 
-    <button></button>
+    <button @click="setModal('add')"></button>
   </div>
 </template>
 
@@ -68,7 +68,7 @@ export default {
   name: 'Stats',
   mixins: [timeFormatterMixin, getAvgMixin],
   computed: mapGetters(['getCubeCopy']),
-  methods: mapActions(['addAvgToCubeCopy']),
+  methods: mapActions(['addAvgToCubeCopy', 'setModal']),
   created() {
     const list = this.getCubeCopy.list;
     

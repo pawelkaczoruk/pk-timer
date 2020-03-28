@@ -2,14 +2,16 @@ const state = {
   selectedCube: 'cube2x2',
   timerColor: 'white',
   time: 0,
-  scramble: []
+  scramble: [],
+  modal: ''
 };
 
 const getters = {
   getSelectedCube: state => state.selectedCube,
   getTimerColor: state => state.timerColor,
   getTimeValue: state => state.time,
-  getScramble: state => state.scramble
+  getScramble: state => state.scramble,
+  getModal: state => state.modal
 };
 
 const actions = {
@@ -28,6 +30,10 @@ const actions = {
 
   setScramble({commit}, scramble) {
     commit('SET_SCRAMBLE', scramble);
+  },
+
+  setModal({commit}, modal) {
+    commit('SET_MODAL', modal);
   }
 };
 
@@ -35,7 +41,8 @@ const mutations = {
   SET_SELECTED_CUBE: (state, cube) => state.selectedCube = cube,
   SET_TIMER_COLOR: (state, color) => state.timerColor = color,
   SET_TIME_VALUE: (state, time) => state.time = time,
-  SET_SCRAMBLE: (state, scramble) => state.scramble = scramble
+  SET_SCRAMBLE: (state, scramble) => state.scramble = scramble,
+  SET_MODAL: (state, modal) => state.modal = modal
 };
 
 export default {
