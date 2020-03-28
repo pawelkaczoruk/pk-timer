@@ -11,7 +11,7 @@
     <Extra />
     <Compete />
     <MobileMenu />
-    <Modal />
+    <Modal v-if="getModal.length > 0"/>
   </div>
 </template>
 
@@ -69,7 +69,8 @@ export default {
     'getSelectedCube',
     'getTimeValue',
     'getScramble',
-    'getCubeCopy'
+    'getCubeCopy',
+    'getModal'
   ]),
   methods: {
     ...mapActions([

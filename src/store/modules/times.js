@@ -8,7 +8,7 @@ const state = {
       mo100: undefined
     },
     list: [
-      {result: 1000},
+      {result: 1392320},
       {result: 1000},
       {result: 1000},
       {result: 1000},

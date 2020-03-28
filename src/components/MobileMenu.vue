@@ -5,7 +5,7 @@
       <button class="compete-online"></button>
     </div>
     
-    <button class="add-time"></button>
+    <button @click="setModal('add')" class="add-time"></button>
 
     <div class="right-side">
       <button class="change-element"></button>
@@ -15,8 +15,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'MobileMenu'
+  name: 'MobileMenu',
+  methods: mapActions(['setModal'])
 }
 </script>
 

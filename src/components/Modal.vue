@@ -1,40 +1,47 @@
 <template>
   <div class="modal">
     <div class="modal-content">
-      <button class="close-btn" @click="close()"></button>
+      <button class="close-btn" @click="closeModal()"></button>
       
       <h2>Add time</h2>
       
       <div class="add-time">
-        <form>
+        <form @submit="submit()" >
           <label>
             time:
-            <input type="text" placeholder="min:sec.ms">
+            <input 
+            v-model="result" 
+            type="text" 
+            placeholder="min:sec.ms"
+            ref="result" 
+            required>
           </label>
+
+          <p v-if="showAlert">use proper format (e.g. 12:01.33 or 52.31)</p>
 
           <label>
             comment:
-            <textarea></textarea>
-          </label>
-
-          <label>
-            scramble:
-            <textarea></textarea>
+            <textarea v-model="comment"></textarea>
           </label>
           
           <label>
             penalty (+2):
-            <input type="checkbox"> 
+            <input v-model="penalty" type="checkbox"> 
           </label>
                    
           <label>
             dnf:
-            <input type="checkbox">
+            <input v-model="dnf" type="checkbox">
           </label>
-          
+
+          <label>
+            scramble:
+            <textarea v-model="scramble" disabled></textarea>
+          </label>
+
           <label>
             date:
-            <input type="text" disabled>
+            <textarea v-model="date" disabled></textarea>
           </label>
 
           <button class="add-btn" type="submit">add</button>
@@ -47,23 +54,71 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import { getAvgMixin } from '../mixins/getAvgMixin'
+import { timeFormatterMixin } from '../mixins/timeFormatterMixin'
+
 export default {
   name: 'Modal',
-  computed: mapGetters(['getModal']),
-  methods: {
-    ...mapActions(['setModal']),
-
-    close() {
-      this.setModal('');
+  mixins: [getAvgMixin, timeFormatterMixin],
+  computed: mapGetters(['getModal', 'getSelectedCube', 'getScramble', 'getCubeCopy']),
+  data() {
+    return {
+      result: '',
+      dnf: false,
+      penalty: false,
+      comment: '',
+      date: new Date(),
+      showAlert: false
     }
   },
-  watch: {
-    getModal: (val) => {
-      const modal = document.getElementsByClassName('modal')[0];
+  methods: {
+    ...mapActions(['setModal', 'setScramble', 'addTime']),
 
-      if(val === 'add') modal.style.display = 'flex'; 
-      else if(val === '') modal.style.display = 'none'; 
+    // close modal
+    closeModal() {
+      this.setModal('');
+    },
+
+    // submit form
+    submit() {
+      event.preventDefault();
+
+      if(!this.validTime(this.result)) {
+        this.result = '';
+        this.showAlert = true;
+      } else {
+        const timeInMillis = this.timeFormatter(this.result);
+        const data = {
+          cube: this.getSelectedCube,
+          result: timeInMillis,
+          scramble: this.getScramble,
+          ao5: this.getCubeCopy.list.length < 4 ? undefined : Math.floor(this.getAvg([{result: timeInMillis}, ...this.getCubeCopy.list], 0, 5)),
+          ao12: this.getCubeCopy.list.length < 11 ? undefined : Math.floor(this.getAvg([{result: timeInMillis}, ...this.getCubeCopy.list], 0, 12)),
+          mo100: this.getCubeCopy.list.length < 99 ? undefined : Math.floor(this.getAvg([{result: timeInMillis}, ...this.getCubeCopy.list], 0, 100)),
+          dnf: this.dnf,
+          penalty: this.penalty,
+          comment: this.comment,
+          date: this.date
+        }
+        
+        // add time in store
+        this.addTime(data);
+        this.closeModal();
+      }
+    },
+
+    // validate time input format
+    validTime(time) {
+      const regex = /^([0-9]{1,}:)?([0-5]?[0-9]\.)([0-9]{1,3})$/;
+      return regex.test(time);
     }
+  },
+  created() {
+    this.scramble = this.getScramble.join(' ');
+  },
+  mounted() {
+    // autofocus time result input
+    this.$refs.result.focus();
   }
 }
 </script>
@@ -122,6 +177,12 @@ export default {
     input {
       font-size: 1rem;
     }
+  }
+
+  form p {
+    color: var(--strawberry);
+    font-size: .85rem;
+    margin-bottom: .5rem;
   }
 }
 
