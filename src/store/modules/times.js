@@ -169,6 +169,11 @@ const actions = {
     }
   },
 
+  updateTime({dispatch,commit}, data) {
+    commit('UPDATE_TIME', data);
+    dispatch('copyCube');
+  },
+
   copyCube({commit, getters}) {
     switch(getters.getSelectedCube) {
       case 'cube2x2': commit('COPY_CUBE', getters.getCube2x2); break;
@@ -206,7 +211,14 @@ const mutations = {
   SET_3X3_BESTS: (state, bests) => state.cube3x3.bests = JSON.parse(JSON.stringify(bests)),
 
   ADD_CUBE_2X2_TIME: (state, data) => state.cube2x2.list.unshift(data),
-  ADD_CUBE_3X3_TIME: (state, data) => state.cube3x3.list.unshift(data)
+  ADD_CUBE_3X3_TIME: (state, data) => state.cube3x3.list.unshift(data),
+
+  UPDATE_TIME: (state, data) => {
+    state[data.cube].list[data.index].result = data.result;
+    state[data.cube].list[data.index].comment = data.comment;
+    state[data.cube].list[data.index].penalty = data.penalty;
+    state[data.cube].list[data.index].dnf = data.dnf;
+  }
 };
 
 export default {

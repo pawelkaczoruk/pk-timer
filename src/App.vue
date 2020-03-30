@@ -11,7 +11,9 @@
     <Extra />
     <Compete />
     <MobileMenu />
-    <Modal v-if="getModal.length > 0"/>
+    <Modal 
+    v-if="getModal.length > 0"
+    @refresh-scramble="generateScramble(getSelectedCube)"/>
   </div>
 </template>
 
