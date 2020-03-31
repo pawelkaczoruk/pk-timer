@@ -46,7 +46,9 @@
             <textarea v-model="date" disabled rows="1"></textarea>
           </label>
 
-          <button class="add-btn" type="submit">add</button>
+          <div class="btn-container">
+            <button class="form-btn add-btn" type="submit">add</button>
+          </div>
         </form>
       </div>
 
@@ -85,7 +87,14 @@
             <textarea v-model="date" disabled rows="1"></textarea>
           </label>
 
-          <button class="add-btn" type="submit">save</button>
+          <div class="btn-container">
+            <button class="form-btn add-btn" type="submit">save</button>
+            <button 
+            class="form-btn remove-btn" 
+            type="button" 
+            @click="remove()">remove</button>
+          </div>
+
         </form>
       </div>
       
@@ -150,7 +159,8 @@ export default {
       'setModal',
       'setTimeIndex',
       'addTime',
-      'updateTime'
+      'updateTime',
+      'removeTime'
     ]),
 
     // close modal
@@ -193,7 +203,7 @@ export default {
       event.preventDefault();
       const ob = this.getCubeCopy.list[this.getTimeIndex];
       let time;
-      
+    
       if(!ob.penalty && this.penalty) {
         time = ob.result + 2000;
       } else if(ob.penalty && !this.penalty) {
@@ -209,12 +219,23 @@ export default {
         dnf: this.dnf,
         penalty: this.penalty,
         comment: this.comment
-      }
+      };
 
       this.updateTime(data);
       this.setTimeIndex(undefined);
       this.closeModal();
 
+    },
+
+    remove() {
+      const ob = {
+        cube: this.getSelectedCube,
+        index: this.getTimeIndex
+      };
+
+      this.removeTime(ob);
+      this.setTimeIndex(undefined);
+      this.closeModal();
     },
 
     // validate time input format
@@ -339,18 +360,33 @@ export default {
   cursor: pointer;
 }
 
-.add-btn {
-  display: block;
-  margin: 0 auto;
-  border: none;
-  background: var(--purple);
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form-btn {
+  border: none;  
   color: white;
   padding: .3rem 1rem;
   cursor: pointer;
-  transition: background .2s linear;
+  transition: background .2s linear;  
+}
+
+.add-btn {
+  background: var(--purple);
 
   &:hover {
     background: var(--purple-hover);
+  }
+}
+
+.remove-btn {
+  background: var(--strawberry);
+  margin-left: 1rem;
+
+  &:hover {
+    background: var(--strawberry-hover);
   }
 }
 

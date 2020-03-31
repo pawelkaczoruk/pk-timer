@@ -169,8 +169,13 @@ const actions = {
     }
   },
 
-  updateTime({dispatch,commit}, data) {
+  updateTime({dispatch, commit}, data) {
     commit('UPDATE_TIME', data);
+    dispatch('copyCube');
+  },
+
+  removeTime({dispatch, commit}, data) {
+    commit('REMOVE_TIME', data);
     dispatch('copyCube');
   },
 
@@ -218,7 +223,9 @@ const mutations = {
     state[data.cube].list[data.index].comment = data.comment;
     state[data.cube].list[data.index].penalty = data.penalty;
     state[data.cube].list[data.index].dnf = data.dnf;
-  }
+  },
+
+  REMOVE_TIME: (state, data) => state[data.cube].list.splice(data.index, 1)
 };
 
 export default {
