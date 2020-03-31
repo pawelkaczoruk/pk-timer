@@ -48,11 +48,11 @@
 
             <td 
             class="animate-cell"
-            @click="setModal('show-ao5')">{{ time.ao5 === undefined ? '--' : timeFormatter(time.ao5) }}</td>
+            @click="time.ao5 ? displayModal('ao5', i) : null">{{ !time.ao5 ? '--' : timeFormatter(time.ao5) }}</td>
             
             <td 
             class="animate-cell"
-            @click="setModal('show-ao12')">{{ time.ao12 === undefined ? '--' : timeFormatter(time.ao12) }}</td>
+            @click="time.ao12 ? displayModal('ao12', i) : null">{{ !time.ao12 ? '--' : timeFormatter(time.ao12) }}</td>
           </tr>
 
           <tr class="end-line">

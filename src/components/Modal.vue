@@ -5,6 +5,7 @@
       
       <h2 v-if="getModal === 'add'">Add time</h2>
       <h2 v-if="getModal === 'edit'">Edit time</h2>
+      <h2 v-if="getModal === 'ao5' || getModal === 'ao12'">Times</h2>
       
       <div v-if="getModal === 'add'" class="modal-wrapper">
         <form @submit="submitAdd()" >
@@ -22,7 +23,7 @@
 
           <label>
             comment:
-            <textarea v-model="comment"></textarea>
+            <textarea v-model="comment" rows="2"></textarea>
           </label>
           
           <label>
@@ -37,12 +38,12 @@
 
           <label>
             scramble:
-            <textarea v-model="scramble" disabled></textarea>
+            <textarea v-model="scramble" disabled rows="2"></textarea>
           </label>
 
           <label>
             date:
-            <textarea v-model="date" disabled></textarea>
+            <textarea v-model="date" disabled rows="1"></textarea>
           </label>
 
           <button class="add-btn" type="submit">add</button>
@@ -61,7 +62,7 @@
 
           <label>
             comment:
-            <textarea v-model="comment"></textarea>
+            <textarea v-model="comment" rows="2"></textarea>
           </label>
           
           <label>
@@ -76,17 +77,36 @@
 
           <label>
             scramble:
-            <textarea v-model="scramble" disabled></textarea>
+            <textarea v-model="scramble" disabled rows="2"></textarea>
           </label>
 
           <label>
             date:
-            <textarea v-model="date" disabled></textarea>
+            <textarea v-model="date" disabled rows="1"></textarea>
           </label>
 
           <button class="add-btn" type="submit">save</button>
         </form>
       </div>
+      
+      <div v-if="getModal === 'ao5' || getModal === 'ao12'" class="modal-wrapper">
+        
+        <div class="stats-list">
+          <h3>{{ getModal }}: {{ timeFormatter(times.avg) }}</h3>
+
+          <p :key="i" v-for="(item, i) in times.list">
+            <span class="list-index">{{ i+1 }}.</span>
+            {{ i === times.worstIndex || i === times.bestIndex ? '(' : '' }}
+            {{ !item.dnf ? timeFormatter(item.result) : '' }}
+            {{ item.dnf ? 'dnf' : item.penalty ? '+' : '' }}
+            {{ i === times.worstIndex || i === times.bestIndex ? ')' : '' }}
+            <span class="list-scramble">{{ item.scramble.join(' ') }}</span>
+          </p>
+
+        </div>
+
+      </div>
+
 
     </div>
   </div>
@@ -116,7 +136,13 @@ export default {
       scramble: '',
       comment: '',
       date: new Date(),
-      showAlert: false
+      showAlert: false,
+      times: {
+        list: [],
+        avg: undefined,
+        bestIndex: undefined,
+        worstIndex: undefined
+      }
     }
   },
   methods: {
@@ -198,17 +224,36 @@ export default {
     }
   },
   created() {
-    if(this.getModal === 'add') {
-      this.scramble = this.getScramble.join(' ');
-    } else if(this.getModal === 'edit') {
-      const ob = this.getCubeCopy.list[this.getTimeIndex];
+    const type = this.getModal,
+          ob = this.getCubeCopy.list[this.getTimeIndex];
 
+    if(type === 'add') {
+      this.scramble = this.getScramble.join(' ');
+    } else if(type === 'edit') {
       this.scramble = ob.scramble.join(' ');
       this.result = this.timeFormatter(ob.result);
       this.dnf = ob.dnf;
       this.penalty = ob.penalty;
       this.comment = ob.comment;
       this.date = ob.date;
+
+    } else if(type === 'ao5' || type === 'ao12') {
+      const index = Number(type.indexOf('o')) + 1,
+            length = Number(type.slice(index)),
+            ti = this.getTimeIndex,
+            timesList = [];
+
+      for(let i = ti; i<ti+length; i++) {
+        this.times.list.push(this.getCubeCopy.list[i]);
+        timesList.push(this.getCubeCopy.list[i].result);
+      }
+      
+      const posMax = timesList.indexOf(Math.max(...timesList)),
+            posMin = timesList.indexOf(Math.min(...timesList));
+
+      this.times.avg = ob[type];
+      this.times.bestIndex = posMin;
+      this.times.worstIndex = posMax;
     }
   },
   mounted() {
@@ -307,6 +352,38 @@ export default {
   &:hover {
     background: var(--purple-hover);
   }
+}
+
+.stats-list {
+  background: rgba(0, 0, 0, 0.2);
+  padding: .3rem .5rem;
+  max-height: 80vh;
+  overflow-x: hidden;
+  
+  h3 {
+    text-align: center;
+    margin-bottom: .3rem;
+  }
+
+  p {
+    margin-bottom: .3rem;
+  }
+
+  p, .list-index {
+    font-size: .8rem;
+    color: var(--purple);
+  }
+
+  .list-index {
+    margin-right: .2rem;
+    color: black;
+  }
+
+  .list-scramble {
+    display: block;
+    font-size: .7rem;
+  }
+
 }
 
 </style>
