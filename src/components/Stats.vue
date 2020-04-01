@@ -39,9 +39,20 @@
           <tr :key="i" v-for="(time, i) in getCubeCopy.list">
             <th>{{ getCubeCopy.list.length - i }}.</th>
             <td class="v-line"><div class="v-line-el"></div></td>
-            <td>{{ timeFormatter(time.result) }}</td>
-            <td>{{ time.ao5 === undefined ? '--' : timeFormatter(time.ao5) }}</td>
-            <td>{{ time.ao12 === undefined ? '--' : timeFormatter(time.ao12) }}</td>
+
+            <td 
+            class="animate-cell"
+            @click="displayModal('edit', i)">
+              {{ time.dnf ? 'dnf' : (time.penalty ? `${timeFormatter(time.result)}+` : timeFormatter(time.result)) }}
+            </td>
+
+            <td 
+            class="animate-cell"
+            @click="time.ao5 ? displayModal('ao5', i) : null">{{ !time.ao5 ? '--' : timeFormatter(time.ao5) }}</td>
+            
+            <td 
+            class="animate-cell"
+            @click="time.ao12 ? displayModal('ao12', i) : null">{{ !time.ao12 ? '--' : timeFormatter(time.ao12) }}</td>
           </tr>
 
           <tr class="end-line">
@@ -55,7 +66,7 @@
       </table>
     </div>
 
-    <button></button>
+    <button @click="setModal('add')"></button>
   </div>
 </template>
 
@@ -67,20 +78,47 @@ import { getAvgMixin } from '../mixins/getAvgMixin'
 export default {
   name: 'Stats',
   mixins: [timeFormatterMixin, getAvgMixin],
-  computed: mapGetters(['getCubeCopy']),
-  methods: mapActions(['addAvgToCubeCopy']),
-  created() {
-    const list = this.getCubeCopy.list;
+  computed: mapGetters([
+    'getCubeCopy',
+    'getTimeIndex'
+  ]),
+  methods: {
+    ...mapActions([
+      'addAvgToCubeCopy',
+      'setModal',
+      'setTimeIndex'
+    ]),
     
-    for(let index=0; index<list.length; index++) {
-      const ob = {
-        index,
-        ao5: index+5 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+5)),
-        ao12: index+12 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+12)),
-        mo100: index+100 > list.length ? undefined : Math.floor(this.getAvg(list, index, index+100, 'mean'))
+    displayModal(type, index) {
+      this.setTimeIndex(index);
+      this.setModal(type);
+    },
+
+    generateAverage() {
+      const list = this.getCubeCopy.list,
+            lastIndex = list.length;
+    
+      for(let index=0; index<lastIndex; index++) {
+
+        const ob = {
+          index,
+          ao5: index+5 > lastIndex ? undefined : Math.floor(this.getAvg(list, index, index+5)),
+          ao12: index+12 > lastIndex ? undefined : Math.floor(this.getAvg(list, index, index+12)),
+          mo100: index+100 > lastIndex ? undefined : Math.floor(this.getAvg(list, index, index+100, 'mean'))
+        }
+        
+        this.addAvgToCubeCopy(ob);
+      }      
+    }
+  },
+  created() {
+    this.generateAverage();
+  },
+  watch: {
+    getTimeIndex: function (index, prevIndex) { 
+      if(prevIndex !== undefined) {
+        this.generateAverage();
       }
-      
-      this.addAvgToCubeCopy(ob);
     }
   }
 }
@@ -214,6 +252,13 @@ export default {
       tbody {
         th {
           font-size: .875em;
+        }
+      }
+
+      .animate-cell {        
+        &:hover {
+          background: rgba(0, 0, 0, 0.3);
+          cursor: pointer;
         }
       }
     }

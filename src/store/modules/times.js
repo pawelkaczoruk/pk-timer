@@ -2,112 +2,12 @@ const state = {
   cubeCopy: {},
   cube2x2: {
     bests: {
-      single: 1000,
-      ao5: 1000,
-      ao12: 1900,
+      single: undefined,
+      ao5: undefined,
+      ao12: undefined,
       mo100: undefined
     },
-    list: [
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 9000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 8000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 7000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 6000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 5000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 4000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 3000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 2000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-      {result: 1000},
-    ]
+    list: []
   },
   cube3x3: {
     bests: {
@@ -169,6 +69,16 @@ const actions = {
     }
   },
 
+  updateTime({dispatch, commit}, data) {
+    commit('UPDATE_TIME', data);
+    dispatch('copyCube');
+  },
+
+  removeTime({dispatch, commit}, data) {
+    commit('REMOVE_TIME', data);
+    dispatch('copyCube');
+  },
+
   copyCube({commit, getters}) {
     switch(getters.getSelectedCube) {
       case 'cube2x2': commit('COPY_CUBE', getters.getCube2x2); break;
@@ -206,7 +116,16 @@ const mutations = {
   SET_3X3_BESTS: (state, bests) => state.cube3x3.bests = JSON.parse(JSON.stringify(bests)),
 
   ADD_CUBE_2X2_TIME: (state, data) => state.cube2x2.list.unshift(data),
-  ADD_CUBE_3X3_TIME: (state, data) => state.cube3x3.list.unshift(data)
+  ADD_CUBE_3X3_TIME: (state, data) => state.cube3x3.list.unshift(data),
+
+  UPDATE_TIME: (state, data) => {
+    state[data.cube].list[data.index].result = data.result;
+    state[data.cube].list[data.index].comment = data.comment;
+    state[data.cube].list[data.index].penalty = data.penalty;
+    state[data.cube].list[data.index].dnf = data.dnf;
+  },
+
+  REMOVE_TIME: (state, data) => state[data.cube].list.splice(data.index, 1)
 };
 
 export default {
