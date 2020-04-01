@@ -1,5 +1,5 @@
 const state = {
-  selectedCube: 'cube2x2',
+  selectedCube: 'cube3x3',
   timerColor: 'white',
   time: 0,
   scramble: [],
