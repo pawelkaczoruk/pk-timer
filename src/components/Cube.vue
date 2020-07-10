@@ -1,6 +1,6 @@
 <template>
   <div class=cube>
-    <canvas width="396" height="297" id="scrambled-cube">Scrambled cube</canvas>
+    <canvas width="396" height="297" ref="scrambledCube">Scrambled cube</canvas>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
   methods: {
     // atm only for 3x3 cubes
     draw(scramble, cubeScheme) {
-      const canvas = document.getElementById('scrambled-cube'),
+      const canvas = this.$refs.scrambledCube,
             scrambledCubeScheme = this.scrambleCube(scramble, cubeScheme);
 
             // if browser supports canvas

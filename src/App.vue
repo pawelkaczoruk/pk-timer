@@ -351,9 +351,6 @@ export default {
                        "stats stats"
                        "mobileMenu mobileMenu";
 
-  @media screen and (min-width: 370px) {
-    grid-template: 62px 100px 1fr 200px 62px / 62px 1fr;
-  }
 
   @media screen and (min-width: 1024px) and (min-height: 500px) and (orientation: landscape),
          screen and (min-width: 1024px) and (orientation: portrait) {

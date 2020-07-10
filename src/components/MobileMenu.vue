@@ -44,11 +44,6 @@ export default {
     outline: none;
     background: var(--navy-blue);
     cursor: pointer;
-
-    @media screen and (min-width: 370px) {
-      height: 3.875rem;
-      width: 3.875rem;
-    }
   }
 
   .times-list {
