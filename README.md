@@ -18,5 +18,6 @@ Click [here](https://xd.adobe.com/view/aec3196b-0c2d-4840-6775-acf12b7a4518-d8f2
 
 ## 3. Tech stack:
 * Vue.js
+* Vuex
 * JS
 * SCSS
