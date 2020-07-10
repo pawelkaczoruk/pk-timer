@@ -9,7 +9,7 @@ Click [here](https://xd.adobe.com/view/aec3196b-0c2d-4840-6775-acf12b7a4518-d8f2
 [Live](https://tender-franklin-d70598.netlify.com/) version.
 
 ## 2. Set up project
-    git clone https://github.com/pawelkaczoruk/pk-timer.git && cd mk-website
+    git clone https://github.com/pawelkaczoruk/pk-timer.git && cd pk-timer
     npm install
     npm run serve
     
@@ -18,6 +18,5 @@ Click [here](https://xd.adobe.com/view/aec3196b-0c2d-4840-6775-acf12b7a4518-d8f2
 
 ## 3. Tech stack:
 * Vue.js
-* HTML
 * JS
-* CSS
+* SCSS
